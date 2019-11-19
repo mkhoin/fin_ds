@@ -17,7 +17,7 @@ $$log(\frac{P(Y)}{1-P(Y)}) = a + bX$$
 $$\frac{P(Y)}{1-P(Y)} = e^{a + bX}$$
 $$ P(Y) = \frac{e^{a + bX}}{1 + e^{a + bX}}  $$
 
-위 $P(Y)$ 를 그래프로 나타내면 다음과 같다.
+위 $P(Y)$ 를 그래프로 나타내면 다음과 같습니다.
 
 <img src="03-logistic_files/figure-html/unnamed-chunk-2-1.png" width="50%" style="display: block; margin: auto;" />
 

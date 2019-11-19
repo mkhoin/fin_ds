@@ -24,7 +24,8 @@ R을 이용한 금융 데이터 사이언스 과정 페이지 입니다.
 ```{r}
 pkg = c('alr3', 'caret', 'ISLR', 'MASS', 'InformationValue',
         'leaps', 'car', 'corrplot', 'lmtest', 'bestglm',
-        'ElemStatLearn', 'psych', 'rpart.plot', 'xgboost')
+        'ElemStatLearn', 'psych', 'rpart.plot', 'xgboost',
+        'compareGroups', 'HDclassif', 'NbClust', 'sparcl')
 
 new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
 if (length(new.pkg)) {

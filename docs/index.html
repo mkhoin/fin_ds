@@ -227,6 +227,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.5" data-path="pca.html"><a href="pca.html#회귀-분석"><i class="fa fa-check"></i><b>7.3.5</b> 회귀 분석</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="군집화-분석.html"><a href="군집화-분석.html"><i class="fa fa-check"></i><b>8</b> 군집화 분석</a><ul>
+<li class="chapter" data-level="8.1" data-path="군집화-분석.html"><a href="군집화-분석.html#k-means-iris-데이터"><i class="fa fa-check"></i><b>8.1</b> K-Means (iris 데이터)</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="군집화-분석.html"><a href="군집화-분석.html#데이터-불러오기-및-편집-6"><i class="fa fa-check"></i><b>8.1.1</b> 데이터 불러오기 및 편집</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="군집화-분석.html"><a href="군집화-분석.html#와인-데이터-분석"><i class="fa fa-check"></i><b>8.2</b> 와인 데이터 분석</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="군집화-분석.html"><a href="군집화-분석.html#데이터-불러오기-및-편집-7"><i class="fa fa-check"></i><b>8.2.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="8.2.2" data-path="군집화-분석.html"><a href="군집화-분석.html#k-평균-군집화"><i class="fa fa-check"></i><b>8.2.2</b> K-평균 군집화</a></li>
+<li class="chapter" data-level="8.2.3" data-path="군집화-분석.html"><a href="군집화-분석.html#계층적-군집화"><i class="fa fa-check"></i><b>8.2.3</b> 계층적 군집화</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="http://henryquant.blogspot.com/" target="blank">Henry's Quantopia</a></li>
 
@@ -261,11 +271,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>본 과정에서 사용되는 패키지는 다음과 같이 설치할 수 있습니다. (업데이트 중)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">pkg =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;alr3&#39;</span>, <span class="st">&#39;caret&#39;</span>, <span class="st">&#39;ISLR&#39;</span>, <span class="st">&#39;MASS&#39;</span>, <span class="st">&#39;InformationValue&#39;</span>,</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">        <span class="st">&#39;leaps&#39;</span>, <span class="st">&#39;car&#39;</span>, <span class="st">&#39;corrplot&#39;</span>, <span class="st">&#39;lmtest&#39;</span>, <span class="st">&#39;bestglm&#39;</span>,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">        <span class="st">&#39;ElemStatLearn&#39;</span>, <span class="st">&#39;psych&#39;</span>, <span class="st">&#39;rpart.plot&#39;</span>, <span class="st">&#39;xgboost&#39;</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">new.pkg =<span class="st"> </span>pkg[<span class="op">!</span>(pkg <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="cf">if</span> (<span class="kw">length</span>(new.pkg)) {</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="kw">install.packages</span>(new.pkg, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)}</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3">        <span class="st">&#39;ElemStatLearn&#39;</span>, <span class="st">&#39;psych&#39;</span>, <span class="st">&#39;rpart.plot&#39;</span>, <span class="st">&#39;xgboost&#39;</span>,</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">        <span class="st">&#39;compareGroups&#39;</span>, <span class="st">&#39;HDclassif&#39;</span>, <span class="st">&#39;NbClust&#39;</span>, <span class="st">&#39;sparcl&#39;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">new.pkg =<span class="st"> </span>pkg[<span class="op">!</span>(pkg <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="cf">if</span> (<span class="kw">length</span>(new.pkg)) {</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="kw">install.packages</span>(new.pkg, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)}</a></code></pre></div>
 
 </div>
 </div>

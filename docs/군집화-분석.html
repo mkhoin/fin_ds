@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 군집화 분석 | 금융 데이터 사이언스</title>
+  <meta name="description" content="Chapter 8 군집화 분석 | 금융 데이터 사이언스" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 군집화 분석 | 금융 데이터 사이언스" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 군집화 분석 | 금융 데이터 사이언스" />
+  
+  
+  
+
+<meta name="author" content="이현열" />
+
+
+<meta name="date" content="2019-11-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="pca.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">금융 데이터 사이언스</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#사용-패키지"><i class="fa fa-check"></i>사용 패키지</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="머신러닝이란.html"><a href="머신러닝이란.html"><i class="fa fa-check"></i><b>1</b> 머신러닝이란?</a><ul>
+<li class="chapter" data-level="1.1" data-path="머신러닝이란.html"><a href="머신러닝이란.html#지도학습supervised-learning"><i class="fa fa-check"></i><b>1.1</b> 지도학습(Supervised Learning)</a></li>
+<li class="chapter" data-level="1.2" data-path="머신러닝이란.html"><a href="머신러닝이란.html#비지도학습unsupervised-learning"><i class="fa fa-check"></i><b>1.2</b> 비지도학습(Unsupervised Learning)</a></li>
+<li class="chapter" data-level="1.3" data-path="머신러닝이란.html"><a href="머신러닝이란.html#딥러닝-강화학습reinforcement-learning"><i class="fa fa-check"></i><b>1.3</b> 딥러닝 / 강화학습(Reinforcement Learning)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="회귀분석.html"><a href="회귀분석.html"><i class="fa fa-check"></i><b>2</b> 회귀분석</a><ul>
+<li class="chapter" data-level="2.1" data-path="회귀분석.html"><a href="회귀분석.html#상관관계-이해하기"><i class="fa fa-check"></i><b>2.1</b> 상관관계 이해하기</a></li>
+<li class="chapter" data-level="2.2" data-path="회귀분석.html"><a href="회귀분석.html#회귀의-이해"><i class="fa fa-check"></i><b>2.2</b> 회귀의 이해</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="회귀분석.html"><a href="회귀분석.html#보통-최소-제곱ols-추정"><i class="fa fa-check"></i><b>2.2.1</b> 보통 최소 제곱(OLS) 추정</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="회귀분석.html"><a href="회귀분석.html#단변량-회귀분석"><i class="fa fa-check"></i><b>2.3</b> 단변량 회귀분석</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="회귀분석.html"><a href="회귀분석.html#챌린저-호-데이터"><i class="fa fa-check"></i><b>2.3.1</b> 챌린저 호 데이터</a></li>
+<li class="chapter" data-level="2.3.2" data-path="회귀분석.html"><a href="회귀분석.html#미국-와이오밍-주-용출량-예측"><i class="fa fa-check"></i><b>2.3.2</b> 미국 와이오밍 주 용출량 예측</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="회귀분석.html"><a href="회귀분석.html#다변량-회귀분석"><i class="fa fa-check"></i><b>2.4</b> 다변량 회귀분석</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="회귀분석.html"><a href="회귀분석.html#다이아몬드-데이터"><i class="fa fa-check"></i><b>2.4.1</b> 다이아몬드 데이터</a></li>
+<li class="chapter" data-level="2.4.2" data-path="회귀분석.html"><a href="회귀분석.html#캘리포니아-물-가용량"><i class="fa fa-check"></i><b>2.4.2</b> 캘리포니아 물 가용량</a></li>
+<li class="chapter" data-level="2.4.3" data-path="회귀분석.html"><a href="회귀분석.html#최적화를-통한-변수-선택"><i class="fa fa-check"></i><b>2.4.3</b> 최적화를 통한 변수 선택</a></li>
+<li class="chapter" data-level="2.4.4" data-path="회귀분석.html"><a href="회귀분석.html#robustness-check"><i class="fa fa-check"></i><b>2.4.4</b> Robustness Check</a></li>
+<li class="chapter" data-level="2.4.5" data-path="회귀분석.html"><a href="회귀분석.html#실제와-예측간의-차이"><i class="fa fa-check"></i><b>2.4.5</b> 실제와 예측간의 차이</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="회귀분석.html"><a href="회귀분석.html#다른-고려사항"><i class="fa fa-check"></i><b>2.5</b> 다른 고려사항</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="회귀분석.html"><a href="회귀분석.html#질적-피처"><i class="fa fa-check"></i><b>2.5.1</b> 질적 피처</a></li>
+<li class="chapter" data-level="2.5.2" data-path="회귀분석.html"><a href="회귀분석.html#상호작용-항"><i class="fa fa-check"></i><b>2.5.2</b> 상호작용 항</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html"><i class="fa fa-check"></i><b>3</b> 로지스틱 회귀</a><ul>
+<li class="chapter" data-level="3.1" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#오즈비"><i class="fa fa-check"></i><b>3.1</b> 오즈비</a></li>
+<li class="chapter" data-level="3.2" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#로지스틱-회귀-1"><i class="fa fa-check"></i><b>3.2</b> 로지스틱 회귀</a></li>
+<li class="chapter" data-level="3.3" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#입학-데이터-분석"><i class="fa fa-check"></i><b>3.3</b> 입학 데이터 분석</a></li>
+<li class="chapter" data-level="3.4" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#위스콘신-유방암-데이터"><i class="fa fa-check"></i><b>3.4</b> 위스콘신 유방암 데이터</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#데이터-불러오기-및-편집"><i class="fa fa-check"></i><b>3.4.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="3.4.2" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#데이터-나누기"><i class="fa fa-check"></i><b>3.4.2</b> 데이터 나누기</a></li>
+<li class="chapter" data-level="3.4.3" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#모형화"><i class="fa fa-check"></i><b>3.4.3</b> 모형화</a></li>
+<li class="chapter" data-level="3.4.4" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#테스트-셋에-적용"><i class="fa fa-check"></i><b>3.4.4</b> 테스트 셋에 적용</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#교차검증을-포함한-로지스틱-회귀"><i class="fa fa-check"></i><b>3.5</b> 교차검증을 포함한 로지스틱 회귀</a></li>
+<li class="chapter" data-level="3.6" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#bic-기준-최적의-피처-선택"><i class="fa fa-check"></i><b>3.6</b> BIC 기준 최적의 피처 선택</a></li>
+<li class="chapter" data-level="3.7" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#roc"><i class="fa fa-check"></i><b>3.7</b> ROC</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ridge-lasso.html"><a href="ridge-lasso.html"><i class="fa fa-check"></i><b>4</b> RIDGE &amp; LASSO</a><ul>
+<li class="chapter" data-level="4.1" data-path="ridge-lasso.html"><a href="ridge-lasso.html#규제화"><i class="fa fa-check"></i><b>4.1</b> 규제화</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="ridge-lasso.html"><a href="ridge-lasso.html#규제화의-종류"><i class="fa fa-check"></i><b>4.1.1</b> 규제화의 종류</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ridge-lasso.html"><a href="ridge-lasso.html#전립선암-데이터-분석"><i class="fa fa-check"></i><b>4.2</b> 전립선암 데이터 분석</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="ridge-lasso.html"><a href="ridge-lasso.html#데이터-불러오기-및-편집-1"><i class="fa fa-check"></i><b>4.2.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ridge-lasso.html"><a href="ridge-lasso.html#데이터-나누기-1"><i class="fa fa-check"></i><b>4.2.2</b> 데이터 나누기</a></li>
+<li class="chapter" data-level="4.2.3" data-path="ridge-lasso.html"><a href="ridge-lasso.html#모형화-1"><i class="fa fa-check"></i><b>4.2.3</b> 모형화</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="knn과-svm.html"><a href="knn과-svm.html"><i class="fa fa-check"></i><b>5</b> KNN과 SVM</a><ul>
+<li class="chapter" data-level="5.1" data-path="knn과-svm.html"><a href="knn과-svm.html#knn"><i class="fa fa-check"></i><b>5.1</b> KNN</a></li>
+<li class="chapter" data-level="5.2" data-path="knn과-svm.html"><a href="knn과-svm.html#svm"><i class="fa fa-check"></i><b>5.2</b> SVM</a></li>
+<li class="chapter" data-level="5.3" data-path="knn과-svm.html"><a href="knn과-svm.html#데이터-불러오기-및-편집-2"><i class="fa fa-check"></i><b>5.3</b> 데이터 불러오기 및 편집</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="knn과-svm.html"><a href="knn과-svm.html#knn-1"><i class="fa fa-check"></i><b>5.3.1</b> KNN</a></li>
+<li class="chapter" data-level="5.3.2" data-path="knn과-svm.html"><a href="knn과-svm.html#svm-1"><i class="fa fa-check"></i><b>5.3.2</b> SVM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="cart.html"><a href="cart.html"><i class="fa fa-check"></i><b>6</b> CART</a><ul>
+<li class="chapter" data-level="6.1" data-path="cart.html"><a href="cart.html#의사결정나무"><i class="fa fa-check"></i><b>6.1</b> 의사결정나무</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="cart.html"><a href="cart.html#랜덤-포레스트"><i class="fa fa-check"></i><b>6.1.1</b> 랜덤 포레스트</a></li>
+<li class="chapter" data-level="6.1.2" data-path="cart.html"><a href="cart.html#익스트림-그레디언트-부스트-기법-xgboost"><i class="fa fa-check"></i><b>6.1.2</b> 익스트림 그레디언트 부스트 기법 (XGboost)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="cart.html"><a href="cart.html#회귀-트리"><i class="fa fa-check"></i><b>6.2</b> 회귀 트리</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="cart.html"><a href="cart.html#데이터-불러오기-및-편집-3"><i class="fa fa-check"></i><b>6.2.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="6.2.2" data-path="cart.html"><a href="cart.html#모형화-2"><i class="fa fa-check"></i><b>6.2.2</b> 모형화</a></li>
+<li class="chapter" data-level="6.2.3" data-path="cart.html"><a href="cart.html#프루닝가지치기"><i class="fa fa-check"></i><b>6.2.3</b> 프루닝(가지치기)</a></li>
+<li class="chapter" data-level="6.2.4" data-path="cart.html"><a href="cart.html#랜덤-포레스트-회귀-트리"><i class="fa fa-check"></i><b>6.2.4</b> 랜덤 포레스트: 회귀 트리</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="cart.html"><a href="cart.html#분류-트리"><i class="fa fa-check"></i><b>6.3</b> 분류 트리</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="cart.html"><a href="cart.html#데이터-불러오기-및-편집-4"><i class="fa fa-check"></i><b>6.3.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="6.3.2" data-path="cart.html"><a href="cart.html#랜덤-포레스트-분류-트리"><i class="fa fa-check"></i><b>6.3.2</b> 랜덤 포레스트: 분류 트리</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="cart.html"><a href="cart.html#익스트림-그레디언트-부스트-기법-xgboost-1"><i class="fa fa-check"></i><b>6.4</b> 익스트림 그레디언트 부스트 기법 (XGboost)</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="cart.html"><a href="cart.html#데이터-불러오기-및-편집-5"><i class="fa fa-check"></i><b>6.4.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="6.4.2" data-path="cart.html"><a href="cart.html#랜덤-포레스트-1"><i class="fa fa-check"></i><b>6.4.2</b> 랜덤 포레스트</a></li>
+<li class="chapter" data-level="6.4.3" data-path="cart.html"><a href="cart.html#xgboost-모형-만들기"><i class="fa fa-check"></i><b>6.4.3</b> XGboost 모형 만들기</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="pca.html"><a href="pca.html"><i class="fa fa-check"></i><b>7</b> PCA</a><ul>
+<li class="chapter" data-level="7.1" data-path="pca.html"><a href="pca.html#주성분분석pca"><i class="fa fa-check"></i><b>7.1</b> 주성분분석(PCA)</a></li>
+<li class="chapter" data-level="7.2" data-path="pca.html"><a href="pca.html#iris-데이터-분석"><i class="fa fa-check"></i><b>7.2</b> iris 데이터 분석</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="pca.html"><a href="pca.html#데이터-불러오기"><i class="fa fa-check"></i><b>7.2.1</b> 데이터 불러오기</a></li>
+<li class="chapter" data-level="7.2.2" data-path="pca.html"><a href="pca.html#모형화-3"><i class="fa fa-check"></i><b>7.2.2</b> 모형화</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="pca.html"><a href="pca.html#북미-프로-아이스하키-리그-데이터-분석"><i class="fa fa-check"></i><b>7.3</b> 북미 프로 아이스하키 리그 데이터 분석</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="pca.html"><a href="pca.html#데이터-불러오기-1"><i class="fa fa-check"></i><b>7.3.1</b> 데이터 불러오기</a></li>
+<li class="chapter" data-level="7.3.2" data-path="pca.html"><a href="pca.html#성분-추출"><i class="fa fa-check"></i><b>7.3.2</b> 성분 추출</a></li>
+<li class="chapter" data-level="7.3.3" data-path="pca.html"><a href="pca.html#직각-회전과-해석"><i class="fa fa-check"></i><b>7.3.3</b> 직각 회전과 해석</a></li>
+<li class="chapter" data-level="7.3.4" data-path="pca.html"><a href="pca.html#요인-점수-생성"><i class="fa fa-check"></i><b>7.3.4</b> 요인 점수 생성</a></li>
+<li class="chapter" data-level="7.3.5" data-path="pca.html"><a href="pca.html#회귀-분석"><i class="fa fa-check"></i><b>7.3.5</b> 회귀 분석</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="군집화-분석.html"><a href="군집화-분석.html"><i class="fa fa-check"></i><b>8</b> 군집화 분석</a><ul>
+<li class="chapter" data-level="8.1" data-path="군집화-분석.html"><a href="군집화-분석.html#k-means-iris-데이터"><i class="fa fa-check"></i><b>8.1</b> K-Means (iris 데이터)</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="군집화-분석.html"><a href="군집화-분석.html#데이터-불러오기-및-편집-6"><i class="fa fa-check"></i><b>8.1.1</b> 데이터 불러오기 및 편집</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="군집화-분석.html"><a href="군집화-분석.html#와인-데이터-분석"><i class="fa fa-check"></i><b>8.2</b> 와인 데이터 분석</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="군집화-분석.html"><a href="군집화-분석.html#데이터-불러오기-및-편집-7"><i class="fa fa-check"></i><b>8.2.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="8.2.2" data-path="군집화-분석.html"><a href="군집화-분석.html#k-평균-군집화"><i class="fa fa-check"></i><b>8.2.2</b> K-평균 군집화</a></li>
+<li class="chapter" data-level="8.2.3" data-path="군집화-분석.html"><a href="군집화-분석.html#계층적-군집화"><i class="fa fa-check"></i><b>8.2.3</b> 계층적 군집화</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="http://henryquant.blogspot.com/" target="blank">Henry's Quantopia</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">금융 데이터 사이언스</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="군집화-분석" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> 군집화 분석</h1>
+<p>군집화 분석의 목적은 관찰된 값을 일정 숫자의 집단으로 나누는 것입니다. 이 집단 사이에는 서로 최대한 다른 관찰값을 가지되, 한 집단에 소속된 관찰값은 최대한 비슷하도록 나누어야 합니다.</p>
+<p>군집화 분석은 크게 두가지 방법이 쓰입니다.</p>
+<ul>
+<li>K-평균 군집화 기법(K-means): 원하는 군집의 개수인 k를 지정하면, 알고리즘은 각 관찰값이 k개의 군집 중 하나의 군집에만 속할 때까지 반복을 계속합니다.</li>
+</ul>
+<p><img src="images/K-means_convergence.gif" width="50%" style="display: block; margin: auto;" /></p>
+<p>해당 알고리즘의 작동 순서는 다음과 같습니다.</p>
+<ol style="list-style-type: decimal">
+<li>만들고자 하는 군집의 개수(k)를 지정합니다.</li>
+<li>시작 평균으로 사용될 k개의 점들을 임의로 초기화합니다.</li>
+<li>다음의 내용을 반복합니다.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>각 관찰값을 가장 가까운 군집에 할당하는 방식으로 k개의 군집을 만듭니다. (군집 내 분산을 최소화)</li>
+<li>각 군집의 중점이 새로운 평균이 됩니다.</li>
+<li>각 군집의 중점이 더 이상 변하지 않을 때까지 이 과정을 반복합니다.</li>
+</ol>
+<ul>
+<li>계층적 군집화 기법(hierarchical): 관찰값 사이의 비유사성 측정값을 기반으로 군집화를 합니다. 일반적으로 비유사성에는 유클리드 거리가 사용됩니다.</li>
+</ul>
+<p><span class="math display">\[ dist(x,y) = \sqrt{\sum_{i=1}^n(x_i - yi)^2} \]</span></p>
+<p><img src="images/hierarchical.png" width="50%" style="display: block; margin: auto;" /></p>
+<div id="k-means-iris-데이터" class="section level2">
+<h2><span class="header-section-number">8.1</span> K-Means (iris 데이터)</h2>
+<p>먼저 R의 기본 데이터인 iris 데이터를 통해 K-means 분석을 해보도록 합니다.</p>
+<div id="데이터-불러오기-및-편집-6" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> 데이터 불러오기 및 편집</h3>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1234</span>)</a>
+<a class="sourceLine" id="cb269-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb269-3" data-line-number="3"><span class="kw">data</span>(iris)</a>
+<a class="sourceLine" id="cb269-4" data-line-number="4"><span class="kw">table</span>(iris<span class="op">$</span>Species)</a></code></pre></div>
+<pre><code>## 
+##     setosa versicolor  virginica 
+##         50         50         50</code></pre>
+<p>iris 데이터는 총 3가지 종류의 클래스로 구분되어 있습니다.</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1">iris_km =<span class="st"> </span>iris[, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb271-2" data-line-number="2">iris_km =<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">scale</span>(iris_km))</a></code></pre></div>
+<p>비지도 학습을 위해 label 피쳐를 제거한 피처를 선택합니다. 그 후 <code>scale()</code> 함수를 이용해 표준화를 해주도록 합니다.</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb272-2" data-line-number="2"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb272-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb272-4" data-line-number="4">iris_km <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb272-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Petal.Length, <span class="dt">y =</span> Petal.Width)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb272-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>군집화 이전 Petal.Length와 Petal.Width를 점도표로 나타내 봅니다.</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1">iris_kmeans =<span class="st"> </span><span class="kw">kmeans</span>(iris_km, <span class="dt">centers =</span> <span class="dv">3</span>, <span class="dt">iter.max =</span> <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb273-2" data-line-number="2"><span class="kw">print</span>(iris_kmeans)</a></code></pre></div>
+<pre><code>## K-means clustering with 3 clusters of sizes 50, 53, 47
+## 
+## Cluster means:
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width
+## 1     -1.01119     0.85041      -1.3006     -1.2507
+## 2     -0.05005    -0.88043       0.3466      0.2806
+## 3      1.13218     0.08813       0.9928      1.0141
+## 
+## Clustering vector:
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 2 2 2 3 2 2 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
+##  [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 3 3 3 2 3 3 3 3
+## [112] 3 3 2 2 3 3 3 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 2 3 3 3 2 3 3 3 2 3 3 3 2 3
+## [149] 3 2
+## 
+## Within cluster sum of squares by cluster:
+## [1] 47.35 44.09 47.45
+##  (between_SS / total_SS =  76.7 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<p><code>kmeans()</code> 함수를 통해 군집화를 수행할 수 있으며, centers 인자를 통해 몇개의 군집으로 나눌지 선택할 수 있습니다. 1~3개 군집에 각각 50, 53개, 47개 데이터가 선택되었습니다. 이를 그림으로 나타내보도록 합니다.</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1">iris_km<span class="op">$</span>cluster =<span class="st"> </span><span class="kw">as.factor</span>(iris_kmeans<span class="op">$</span>cluster)</a>
+<a class="sourceLine" id="cb275-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb275-3" data-line-number="3">iris_km <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb275-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Petal.Length, <span class="dt">y =</span> Petal.Width)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb275-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> cluster))</a></code></pre></div>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>실제 데이터와 비교해보도록 하겠습니다. 1번 군집은 setosa, 2번 군집은 versicolor, 3번 군집은 virginica와 매칭됩니다.</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1">iris_km<span class="op">$</span>culster =<span class="st"> </span><span class="kw">ifelse</span>(iris_km<span class="op">$</span>cluster <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;setosa&#39;</span>, </a>
+<a class="sourceLine" id="cb276-2" data-line-number="2">                         <span class="kw">ifelse</span>(iris_km<span class="op">$</span>cluster <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, <span class="st">&#39;versicolor&#39;</span>,</a>
+<a class="sourceLine" id="cb276-3" data-line-number="3">                                <span class="st">&#39;virginica&#39;</span>))</a>
+<a class="sourceLine" id="cb276-4" data-line-number="4">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(<span class="kw">as.factor</span>(iris_km<span class="op">$</span>culster), <span class="kw">as.factor</span>(iris<span class="op">$</span>Species))  </a></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   setosa versicolor virginica
+##   setosa         50          0         0
+##   versicolor      0         39        14
+##   virginica       0         11        36
+## 
+## Overall Statistics
+##                                         
+##                Accuracy : 0.833         
+##                  95% CI : (0.764, 0.889)
+##     No Information Rate : 0.333         
+##     P-Value [Acc &gt; NIR] : &lt;2e-16        
+##                                         
+##                   Kappa : 0.75          
+##                                         
+##  Mcnemar&#39;s Test P-Value : NA            
+## 
+## Statistics by Class:
+## 
+##                      Class: setosa Class: versicolor Class: virginica
+## Sensitivity                  1.000             0.780            0.720
+## Specificity                  1.000             0.860            0.890
+## Pos Pred Value               1.000             0.736            0.766
+## Neg Pred Value               1.000             0.887            0.864
+## Prevalence                   0.333             0.333            0.333
+## Detection Rate               0.333             0.260            0.240
+## Detection Prevalence         0.333             0.353            0.313
+## Balanced Accuracy            1.000             0.820            0.805</code></pre>
+<p>setosa는 완벽하게 구분했지만 versicolor와 virginica를 구분하는데는 오류가 있어, 약 83% 정도의 정확도를 보입니다.</p>
+</div>
+</div>
+<div id="와인-데이터-분석" class="section level2">
+<h2><span class="header-section-number">8.2</span> 와인 데이터 분석</h2>
+<p>178개 와인의 화학 조성을 나타내는 13개 변수를 통해 군집화를 하도록 하겠습니다.</p>
+<div id="데이터-불러오기-및-편집-7" class="section level3">
+<h3><span class="header-section-number">8.2.1</span> 데이터 불러오기 및 편집</h3>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="kw">library</span>(HDclassif)  </a>
+<a class="sourceLine" id="cb278-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="kw">data</span>(wine)</a>
+<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="kw">str</span>(wine)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    178 obs. of  14 variables:
+##  $ class: int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ V1   : num  14.2 13.2 13.2 14.4 13.2 ...
+##  $ V2   : num  1.71 1.78 2.36 1.95 2.59 1.76 1.87 2.15 1.64 1.35 ...
+##  $ V3   : num  2.43 2.14 2.67 2.5 2.87 2.45 2.45 2.61 2.17 2.27 ...
+##  $ V4   : num  15.6 11.2 18.6 16.8 21 15.2 14.6 17.6 14 16 ...
+##  $ V5   : int  127 100 101 113 118 112 96 121 97 98 ...
+##  $ V6   : num  2.8 2.65 2.8 3.85 2.8 3.27 2.5 2.6 2.8 2.98 ...
+##  $ V7   : num  3.06 2.76 3.24 3.49 2.69 3.39 2.52 2.51 2.98 3.15 ...
+##  $ V8   : num  0.28 0.26 0.3 0.24 0.39 0.34 0.3 0.31 0.29 0.22 ...
+##  $ V9   : num  2.29 1.28 2.81 2.18 1.82 1.97 1.98 1.25 1.98 1.85 ...
+##  $ V10  : num  5.64 4.38 5.68 7.8 4.32 6.75 5.25 5.05 5.2 7.22 ...
+##  $ V11  : num  1.04 1.05 1.03 0.86 1.04 1.05 1.02 1.06 1.08 1.01 ...
+##  $ V12  : num  3.92 3.4 3.17 3.45 2.93 2.85 3.58 3.58 2.85 3.55 ...
+##  $ V13  : int  1065 1050 1185 1480 735 1450 1290 1295 1045 1045 ...</code></pre>
+<p>각 피처는 다음과 같습니다.</p>
+<ul>
+<li>V1: 알콜</li>
+<li>V2: 말산</li>
+<li>V3: 재</li>
+<li>V4: 재의 알칼리성</li>
+<li>V5: 마그네슘</li>
+<li>V6: 페놀 총량</li>
+<li>V7: 플라보노이드</li>
+<li>V8: 비플라보노이드성 페놀</li>
+<li>V9: 프로안토시아닌</li>
+<li>V10: 색의 강도</li>
+<li>V11: 빛깔</li>
+<li>V12: OD280/OD315</li>
+<li>V13: 프롤린</li>
+</ul>
+<p>변수의 이름을 정해준 후, 표준화를 실시합니다. 또한 비지도 학습을 위해 label인 Class는 제거해주도록 합니다.</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="kw">names</span>(wine) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Class&#39;</span>, <span class="st">&#39;Alcohol&#39;</span>, <span class="st">&#39;MalicAcid&#39;</span>, <span class="st">&#39;Ash&#39;</span>, <span class="st">&#39;Alk_ash&#39;</span>, <span class="st">&#39;magnesium&#39;</span>, <span class="st">&#39;T_phenols&#39;</span>, <span class="st">&#39;flavonoids&#39;</span>, <span class="st">&#39;Non_flav&#39;</span>, <span class="st">&#39;Proantho&#39;</span>, <span class="st">&#39;C_Intensity&#39;</span>, <span class="st">&#39;Hue&#39;</span>, <span class="st">&#39;00280_315&#39;</span>, <span class="st">&#39;Proline&#39;</span>)</a>
+<a class="sourceLine" id="cb280-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb280-3" data-line-number="3">df =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">scale</span>(wine[, <span class="dv">-1</span>]))</a></code></pre></div>
+<p>품종(class)의 분포를 살펴보도록 하겠습니다.</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="kw">table</span>(wine<span class="op">$</span>Class)</a></code></pre></div>
+<pre><code>## 
+##  1  2  3 
+## 59 71 48</code></pre>
+<p>각 품종에 골고루 분포되어 있는 모습입니다.</p>
+</div>
+<div id="k-평균-군집화" class="section level3">
+<h3><span class="header-section-number">8.2.2</span> K-평균 군집화</h3>
+<p><code>NbClust()</code> 함수를 이용해 최적의 군집 수를 찾을 수 있습니다.</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="kw">library</span>(NbClust)</a>
+<a class="sourceLine" id="cb283-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb283-3" data-line-number="3">numKmeans =<span class="st"> </span><span class="kw">NbClust</span>(df, <span class="dt">min.nc =</span> <span class="dv">2</span>, <span class="dt">max.nc =</span> <span class="dv">15</span>, <span class="dt">method =</span> <span class="st">&#39;kmeans&#39;</span>)</a></code></pre></div>
+<pre><code>## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## </code></pre>
+<pre><code>## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 2 proposed 2 as the best number of clusters 
+## * 19 proposed 3 as the best number of clusters 
+## * 1 proposed 14 as the best number of clusters 
+## * 1 proposed 15 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  3 
+##  
+##  
+## *******************************************************************</code></pre>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-13-2.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>결과를 보면 3개의 군집이 최적 숫자인 것으로 판명됩니다. 해당 k를 바탕으로 <code>kmeans()</code> 함수를 이용해 K-평균 군집화 분석을 수행합니다. nstart 인자는 초기 임의 군집을 몇개 생성할지를 정하는 값입니다.</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1234</span>)</a>
+<a class="sourceLine" id="cb286-2" data-line-number="2">km =<span class="st"> </span><span class="kw">kmeans</span>(df, <span class="dv">3</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb286-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb286-4" data-line-number="4"><span class="kw">table</span>(km<span class="op">$</span>cluster)</a></code></pre></div>
+<pre><code>## 
+##  1  2  3 
+## 62 65 51</code></pre>
+<p>원 데이터의 class와 비교를 통해 정확도를 평가해보도록 합니다.</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" data-line-number="1">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(<span class="kw">as.factor</span>(km<span class="op">$</span>cluster), <span class="kw">as.factor</span>(wine<span class="op">$</span>Class))</a></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  1  2  3
+##          1 59  3  0
+##          2  0 65  0
+##          3  0  3 48
+## 
+## Overall Statistics
+##                                         
+##                Accuracy : 0.966         
+##                  95% CI : (0.928, 0.988)
+##     No Information Rate : 0.399         
+##     P-Value [Acc &gt; NIR] : &lt;2e-16        
+##                                         
+##                   Kappa : 0.949         
+##                                         
+##  Mcnemar&#39;s Test P-Value : NA            
+## 
+## Statistics by Class:
+## 
+##                      Class: 1 Class: 2 Class: 3
+## Sensitivity             1.000    0.915    1.000
+## Specificity             0.975    1.000    0.977
+## Pos Pred Value          0.952    1.000    0.941
+## Neg Pred Value          1.000    0.947    1.000
+## Prevalence              0.331    0.399    0.270
+## Detection Rate          0.331    0.365    0.270
+## Detection Prevalence    0.348    0.365    0.287
+## Balanced Accuracy       0.987    0.958    0.988</code></pre>
+<p>0.9663의 높은 정확도를 보입니다.</p>
+</div>
+<div id="계층적-군집화" class="section level3">
+<h3><span class="header-section-number">8.2.3</span> 계층적 군집화</h3>
+<p>위와 동일하게 <code>NbClust()</code> 함수 내 인자를 바꾸어, 계층적 군집화 기준 최적의 군집 수를 찾도록 합니다.</p>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" data-line-number="1">numComplete =<span class="st"> </span><span class="kw">NbClust</span>(df, <span class="dt">distance  =</span> <span class="st">&#39;euclidean&#39;</span>, <span class="dt">min.nc =</span> <span class="dv">2</span>, <span class="dt">max.nc =</span> <span class="dv">6</span>, <span class="dt">method =</span> <span class="st">&#39;complete&#39;</span>, <span class="dt">index =</span> <span class="st">&#39;all&#39;</span>)</a></code></pre></div>
+<pre><code>## *** : The Hubert index is a graphical method of determining the number of clusters.
+##                 In the plot of Hubert index, we seek a significant knee that corresponds to a 
+##                 significant increase of the value of the measure i.e the significant peak in Hubert
+##                 index second differences plot. 
+## </code></pre>
+<pre><code>## *** : The D index is a graphical method of determining the number of clusters. 
+##                 In the plot of D index, we seek a significant knee (the significant peak in Dindex
+##                 second differences plot) that corresponds to a significant increase of the value of
+##                 the measure. 
+##  
+## ******************************************************************* 
+## * Among all indices:                                                
+## * 1 proposed 2 as the best number of clusters 
+## * 11 proposed 3 as the best number of clusters 
+## * 6 proposed 5 as the best number of clusters 
+## * 5 proposed 6 as the best number of clusters 
+## 
+##                    ***** Conclusion *****                            
+##  
+## * According to the majority rule, the best number of clusters is  3 
+##  
+##  
+## *******************************************************************</code></pre>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-16-2.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>역시나 3개의 군집이 최적으로 나타납니다. 이제 3개의 군집을 사용해 거리 행렬을 계산하도록 합니다.</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" data-line-number="1">dis =<span class="st"> </span><span class="kw">dist</span>(df, <span class="dt">method =</span> <span class="st">&#39;euclidean&#39;</span>)</a></code></pre></div>
+<p>해당 행렬을 <code>hclust()</code> 함수의 입력값으로 사용해 군집화를 합니다.</p>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" data-line-number="1">hc =<span class="st"> </span><span class="kw">hclust</span>(dis, <span class="dt">method =</span> <span class="st">&#39;complete&#39;</span>)</a>
+<a class="sourceLine" id="cb294-2" data-line-number="2"><span class="kw">plot</span>(hc, <span class="dt">hang =</span> <span class="dv">-1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-18-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><code>cutree()</code> 함수를 이용해 군집을 나눈후, sparcl 패키지의 <code>cutree()</code> 함수를 이용하면 군집을 시각화할 수 있습니다.</p>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="kw">library</span>(sparcl)</a>
+<a class="sourceLine" id="cb295-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb295-3" data-line-number="3">comp3 =<span class="st"> </span><span class="kw">cutree</span>(hc, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb295-4" data-line-number="4"><span class="kw">ColorDendrogram</span>(hc, <span class="dt">y =</span> comp3, <span class="dt">branchlength =</span> <span class="dv">50</span>)</a></code></pre></div>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>각 군집 별로 색이 다르게 나타납니다. 마지막으로 원 데이터의 class와 비교를 통해 정확도를 계산해보도록 합니다.</p>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" data-line-number="1">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(<span class="kw">as.factor</span>(comp3), <span class="kw">as.factor</span>(wine<span class="op">$</span>Class))</a></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  1  2  3
+##          1 51 18  0
+##          2  8 50  0
+##          3  0  3 48
+## 
+## Overall Statistics
+##                                         
+##                Accuracy : 0.837         
+##                  95% CI : (0.774, 0.888)
+##     No Information Rate : 0.399         
+##     P-Value [Acc &gt; NIR] : &lt;2e-16        
+##                                         
+##                   Kappa : 0.755         
+##                                         
+##  Mcnemar&#39;s Test P-Value : NA            
+## 
+## Statistics by Class:
+## 
+##                      Class: 1 Class: 2 Class: 3
+## Sensitivity             0.864    0.704    1.000
+## Specificity             0.849    0.925    0.977
+## Pos Pred Value          0.739    0.862    0.941
+## Neg Pred Value          0.927    0.825    1.000
+## Prevalence              0.331    0.399    0.270
+## Detection Rate          0.287    0.281    0.270
+## Detection Prevalence    0.388    0.326    0.287
+## Balanced Accuracy       0.857    0.815    0.988</code></pre>
+<p>0.8371의 정확도를 보입니다.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pca.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
