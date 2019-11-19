@@ -1,0 +1,23 @@
+R로 마스터하는 머신 러닝
+
+supervised learning
+- 회귀분석(단변량/다변량, 로지스틱 회귀, ridge, lasso)
+- Classification(KNN, SVM, CART)
+
+unsupervised learning
+- PCA
+- k-means
+- hierarchical clustering
+
+모델 성능 개선
+- 앙상블
+
+딥러닝
+
+
+https://lgatto.github.io/IntroMachineLearningWithR/
+
+
+PCA
+https://ratsgo.github.io/machine%20learning/2017/04/24/PCA/
+https://angeloyeo.github.io/2019/07/27/PCA.html

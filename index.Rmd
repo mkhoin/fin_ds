@@ -1,0 +1,18 @@
+--- 
+title: "금융 데이터 사이언스"
+author: "이현열"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+fontsize: 12pt
+biblio-style: apalike
+link-citations: yes
+latex_engine: xelatex
+github-repo: rstudio/bookdown-demo
+---
+
+# Welcome {-}
+
+R을 이용한 금융 데이터 사이언스 과정 페이지 입니다.
+현재 머신러닝 파트만 업로드 중입니다.

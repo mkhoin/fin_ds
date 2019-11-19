@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 머신러닝이란? | R 머신러닝</title>
+  <meta name="description" content="Chapter 1 머신러닝이란? | R 머신러닝" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 머신러닝이란? | R 머신러닝" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 머신러닝이란? | R 머신러닝" />
+  
+  
+  
+
+<meta name="author" content="이현열" />
+
+
+<meta name="date" content="2019-11-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R을 이용한 퀀트 투자 포트폴리오 만들기</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="머신러닝이란.html"><a href="머신러닝이란.html"><i class="fa fa-check"></i><b>1</b> 머신러닝이란?</a><ul>
+<li class="chapter" data-level="1.1" data-path="머신러닝이란.html"><a href="머신러닝이란.html#지도학습supervised-learning"><i class="fa fa-check"></i><b>1.1</b> 지도학습(Supervised Learning)</a></li>
+<li class="chapter" data-level="1.2" data-path="머신러닝이란.html"><a href="머신러닝이란.html#비지도학습unsupervised-learning"><i class="fa fa-check"></i><b>1.2</b> 비지도학습(Unsupervised Learning)</a></li>
+<li class="chapter" data-level="1.3" data-path="머신러닝이란.html"><a href="머신러닝이란.html#딥러닝-강화학습reinforcement-learning"><i class="fa fa-check"></i><b>1.3</b> 딥러닝 / 강화학습(Reinforcement Learning)</a></li>
+<li class="chapter" data-level="1.4" data-path="머신러닝이란.html"><a href="머신러닝이란.html#사용-패키지"><i class="fa fa-check"></i><b>1.4</b> 사용 패키지</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="http://henryquant.blogspot.com/" target="blank">Henry's Quantopia</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R 머신러닝</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="머신러닝이란" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> 머신러닝이란?</h1>
+<p>머신러닝이란 데이터에서 패턴을 찾아 새로운 데이터의 결과값을 예측하는 방법이며 크게 지도학습, 비지도학습, 강화학습으로 나눌수 있습니다.</p>
+<div id="지도학습supervised-learning" class="section level2">
+<h2><span class="header-section-number">1.1</span> 지도학습(Supervised Learning)</h2>
+<p>지도학습은 정답을 알려주며 학습시키는 것입니다. 예를들어 고양이 사진을 준 후(input data), 이 사진은 고양이(label data)라는 것를 알려준 후, 이러한 패턴을 바탕으로 새로운 데이터의 결과값을 예측하는 방식입니다. 따라서 기계가 정답을 잘 맞췄는지 아닌지 쉽게 알 수 있다. 지도학습에는 크게 분류(classification)과 회귀(regression)가 있습니다.</p>
+<ul>
+<li><p>분류(classification): 두 가지 혹은 여러 값 중 하나로 분류하는 것입니다. 예를 들어 특정 이메일이 스팸인가 아닌가 혹은 개인의 신용등급을 분류하는 방식입니다.</p></li>
+<li><p>회귀(regression): 어떤 데이터들의 특징(feature)을 토대로 값을 예측하는 것입니다.</p></li>
+</ul>
+</div>
+<div id="비지도학습unsupervised-learning" class="section level2">
+<h2><span class="header-section-number">1.2</span> 비지도학습(Unsupervised Learning)</h2>
+<p>정답(label)을 따로 알려주지 않은 상태에서, 비슷한 데이터들을 군집화 하는 것입니다.</p>
+<p>예를들어 고양이, 병아리, 기린, 호랑이 사진을 비지도학습 시킬 경우, 각 사진이 무슨 동물인지 정답(label)을 알려주지 않았기 때문에 이 동물이 ’무엇’이라고 기계가 정의는 할 수 없지만 비슷한 단위로 군집화 해준다.다리가 4개인 고양이와 호랑이를 한 분류로 묶고, 다리가 4개지만 목이 긴 기린은 다른 분류로, 다리가 얇고 몸통이 둥그런 병아리는 또 다른 분류로 나누어 놓을 것입니다.</p>
+<p><img src="images/animal.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>실무에서는 지도학습에서의 적절한 feature를 찾아내기 위한 전처리 방법으로 비지도 학습을 쓰기도 합니다.</p>
+</div>
+<div id="딥러닝-강화학습reinforcement-learning" class="section level2">
+<h2><span class="header-section-number">1.3</span> 딥러닝 / 강화학습(Reinforcement Learning)</h2>
+<p>상과 벌이라는 보상(reward)을 주며 상을 최대화하고 벌을 최소화 하도록 강화 학습하는 방식입니다. 알파고가 이 방법으로 학습 되었고, 주로 게임에서 최적의 동작을 찾는데 쓰는 학습 방식입니다.</p>
+</div>
+<div id="사용-패키지" class="section level2">
+<h2><span class="header-section-number">1.4</span> 사용 패키지</h2>
+<p>사용하는 패키지와 설명은 다음과 같습니다.</p>
+<ul>
+<li>alr3: 미국 와이오밍 주 스네이크 강 유역의 용출량</li>
+<li>caret: 다이아몬드 데이터</li>
+<li>ISLR: 카시트 판매량</li>
+<li><p>MASS: 보스턴 주택가격</p></li>
+<li>leaps</li>
+<li>car</li>
+<li>corrplot</li>
+<li><p>lmtest</p></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
