@@ -31,6 +31,10 @@ knitr::include_graphics('images/hierarchical.png')
 
 먼저 R의 기본 데이터인 iris 데이터를 통해 K-means 분석을 해보도록 합니다.
 
+```{r echo = FALSE}
+knitr::include_graphics('images/iris.png')
+```
+
 ### 데이터 불러오기 및 편집
 
 ```{r}

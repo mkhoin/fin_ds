@@ -28,6 +28,8 @@ $$ dist(x,y) = \sqrt{\sum_{i=1}^n(x_i - yi)^2} $$
 
 먼저 R의 기본 데이터인 iris 데이터를 통해 K-means 분석을 해보도록 합니다.
 
+<img src="images/iris.png" width="50%" style="display: block; margin: auto;" />
+
 ### 데이터 불러오기 및 편집
 
 
@@ -65,7 +67,7 @@ iris_km %>%
   geom_point()
 ```
 
-<img src="08-clustering_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" />
+<img src="08-clustering_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" />
 
 군집화 이전 Petal.Length와 Petal.Width를 점도표로 나타내 봅니다.
 
@@ -112,7 +114,7 @@ iris_km %>%
   geom_point(aes(color = cluster))
 ```
 
-<img src="08-clustering_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" />
+<img src="08-clustering_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" />
 
 실제 데이터와 비교해보도록 하겠습니다. 1번 군집은 setosa, 2번 군집은 versicolor, 3번 군집은 virginica와 매칭됩니다.
 
@@ -271,7 +273,7 @@ numKmeans = NbClust(df, min.nc = 2, max.nc = 15, method = 'kmeans')
 ## *******************************************************************
 ```
 
-<img src="08-clustering_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-13-2.png" width="50%" style="display: block; margin: auto;" />
+<img src="08-clustering_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-14-2.png" width="50%" style="display: block; margin: auto;" />
 
 결과를 보면 3개의 군집이 최적 숫자인 것으로 판명됩니다. 해당 k를 바탕으로 `kmeans()` 함수를 이용해 K-평균 군집화 분석을 수행합니다. nstart 인자는 초기 임의 군집을 몇개 생성할지를 정하는 값입니다.
 
@@ -369,7 +371,7 @@ numComplete = NbClust(df, distance  = 'euclidean', min.nc = 2, max.nc = 6, metho
 ## *******************************************************************
 ```
 
-<img src="08-clustering_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-16-2.png" width="50%" style="display: block; margin: auto;" />
+<img src="08-clustering_files/figure-html/unnamed-chunk-17-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-17-2.png" width="50%" style="display: block; margin: auto;" />
 
 역시나 3개의 군집이 최적으로 나타납니다. 이제 3개의 군집을 사용해 거리 행렬을 계산하도록 합니다.
 
@@ -386,7 +388,7 @@ hc = hclust(dis, method = 'complete')
 plot(hc, hang = -1, labels = FALSE)
 ```
 
-<img src="08-clustering_files/figure-html/unnamed-chunk-18-1.png" width="50%" style="display: block; margin: auto;" />
+<img src="08-clustering_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" />
 
 `cutree()` 함수를 이용해 군집을 나눈후, sparcl 패키지의 `cutree()` 함수를 이용하면 군집을 시각화할 수 있습니다.
 
@@ -398,7 +400,7 @@ comp3 = cutree(hc, 3)
 ColorDendrogram(hc, y = comp3, branchlength = 50)
 ```
 
-<img src="08-clustering_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" />
+<img src="08-clustering_files/figure-html/unnamed-chunk-20-1.png" width="50%" style="display: block; margin: auto;" />
 
 각 군집 별로 색이 다르게 나타납니다. 마지막으로 원 데이터의 class와 비교를 통해 정확도를 계산해보도록 합니다.
 

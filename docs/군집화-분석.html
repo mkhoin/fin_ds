@@ -284,6 +284,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="k-means-iris-데이터" class="section level2">
 <h2><span class="header-section-number">8.1</span> K-Means (iris 데이터)</h2>
 <p>먼저 R의 기본 데이터인 iris 데이터를 통해 K-means 분석을 해보도록 합니다.</p>
+<p><img src="images/iris.png" width="50%" style="display: block; margin: auto;" /></p>
 <div id="데이터-불러오기-및-편집-6" class="section level3">
 <h3><span class="header-section-number">8.1.1</span> 데이터 불러오기 및 편집</h3>
 <div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1234</span>)</a>
@@ -303,7 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb272-4" data-line-number="4">iris_km <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb272-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Petal.Length, <span class="dt">y =</span> Petal.Width)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb272-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
-<p><img src="08-clustering_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>군집화 이전 Petal.Length와 Petal.Width를 점도표로 나타내 봅니다.</p>
 <div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1">iris_kmeans =<span class="st"> </span><span class="kw">kmeans</span>(iris_km, <span class="dt">centers =</span> <span class="dv">3</span>, <span class="dt">iter.max =</span> <span class="dv">10000</span>)</a>
 <a class="sourceLine" id="cb273-2" data-line-number="2"><span class="kw">print</span>(iris_kmeans)</a></code></pre></div>
@@ -336,7 +337,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb275-3" data-line-number="3">iris_km <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb275-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Petal.Length, <span class="dt">y =</span> Petal.Width)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb275-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> cluster))</a></code></pre></div>
-<p><img src="08-clustering_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>실제 데이터와 비교해보도록 하겠습니다. 1번 군집은 setosa, 2번 군집은 versicolor, 3번 군집은 virginica와 매칭됩니다.</p>
 <div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1">iris_km<span class="op">$</span>culster =<span class="st"> </span><span class="kw">ifelse</span>(iris_km<span class="op">$</span>cluster <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;setosa&#39;</span>, </a>
 <a class="sourceLine" id="cb276-2" data-line-number="2">                         <span class="kw">ifelse</span>(iris_km<span class="op">$</span>cluster <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, <span class="st">&#39;versicolor&#39;</span>,</a>
@@ -455,7 +456,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  
 ##  
 ## *******************************************************************</code></pre>
-<p><img src="08-clustering_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-13-2.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-14-2.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>결과를 보면 3개의 군집이 최적 숫자인 것으로 판명됩니다. 해당 k를 바탕으로 <code>kmeans()</code> 함수를 이용해 K-평균 군집화 분석을 수행합니다. nstart 인자는 초기 임의 군집을 몇개 생성할지를 정하는 값입니다.</p>
 <div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">1234</span>)</a>
 <a class="sourceLine" id="cb286-2" data-line-number="2">km =<span class="st"> </span><span class="kw">kmeans</span>(df, <span class="dv">3</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
@@ -525,19 +526,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  
 ##  
 ## *******************************************************************</code></pre>
-<p><img src="08-clustering_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-16-2.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-17-1.png" width="50%" style="display: block; margin: auto;" /><img src="08-clustering_files/figure-html/unnamed-chunk-17-2.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>역시나 3개의 군집이 최적으로 나타납니다. 이제 3개의 군집을 사용해 거리 행렬을 계산하도록 합니다.</p>
 <div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" data-line-number="1">dis =<span class="st"> </span><span class="kw">dist</span>(df, <span class="dt">method =</span> <span class="st">&#39;euclidean&#39;</span>)</a></code></pre></div>
 <p>해당 행렬을 <code>hclust()</code> 함수의 입력값으로 사용해 군집화를 합니다.</p>
 <div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" data-line-number="1">hc =<span class="st"> </span><span class="kw">hclust</span>(dis, <span class="dt">method =</span> <span class="st">&#39;complete&#39;</span>)</a>
 <a class="sourceLine" id="cb294-2" data-line-number="2"><span class="kw">plot</span>(hc, <span class="dt">hang =</span> <span class="dv">-1</span>, <span class="dt">labels =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<p><img src="08-clustering_files/figure-html/unnamed-chunk-18-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p><code>cutree()</code> 함수를 이용해 군집을 나눈후, sparcl 패키지의 <code>cutree()</code> 함수를 이용하면 군집을 시각화할 수 있습니다.</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="kw">library</span>(sparcl)</a>
 <a class="sourceLine" id="cb295-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb295-3" data-line-number="3">comp3 =<span class="st"> </span><span class="kw">cutree</span>(hc, <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb295-4" data-line-number="4"><span class="kw">ColorDendrogram</span>(hc, <span class="dt">y =</span> comp3, <span class="dt">branchlength =</span> <span class="dv">50</span>)</a></code></pre></div>
-<p><img src="08-clustering_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="08-clustering_files/figure-html/unnamed-chunk-20-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>각 군집 별로 색이 다르게 나타납니다. 마지막으로 원 데이터의 class와 비교를 통해 정확도를 계산해보도록 합니다.</p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" data-line-number="1">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(<span class="kw">as.factor</span>(comp3), <span class="kw">as.factor</span>(wine<span class="op">$</span>Class))</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
