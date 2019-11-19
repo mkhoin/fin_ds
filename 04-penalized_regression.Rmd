@@ -1,17 +1,10 @@
----
-title: "RIDGE & LASSO"
-output: html_document
----
+# RIDGE & LASSO
 
-```{r setup, include=FALSE}
-source('global.R')
-```
-
-# 규제화
+## 규제화
 
 선형 모형의 목적은 $Y = B_o + B_1x_1 + \dots + B_nx_n + e$ 수식에서 RSS를 최소화 하는 것입니다. 규제화란 RSS를 최소화하는 과정에 벌점($\lambda$, Shrinkage penalty)을 적용합니다. 간단하게 말하면, 우리가 사용하는 모형에서는 앞으로 $RSS + \lambda$를 최소화합니다. 이 중 $\lambda$는 조정이 가능한 값이며, 해당 값이 0이면 OLS 모형과 같습니다.
 
-## 규제화의 종류
+### 규제화의 종류
 
 규제화에는 일반적으로 두가지 방법이 사용됩니다.
 
@@ -19,11 +12,11 @@ source('global.R')
 
 - LASSO: LASSO는 정규화한 계수항에 L1-norm을 사용합니다. L1-norm은 피처 가중값의 절대값의 합으로, $RSS + \lambda(\sum |b_k|)$를 최소화합니다. 이러한 벌점은 어떤 피처의 가중값을 0으로 만들 수도 있으며, 모형의 해석 능력을 크게 향상시킬 수 있습니다.
 
-# 전립선암 데이터 분석
+## 전립선암 데이터 분석
 
 암-전립선암 데이터를 통해 규제화 기법을 사용한 차이를 살펴보도록 하겠습니다.
 
-## 데이터 불러오기 및 편집
+### 데이터 불러오기 및 편집
 
 ```{r}
 library(ElemStatLearn) # 데이터
@@ -89,7 +82,7 @@ cor(prostate) %>%
 
 lpsa와 lcavol, lcavol과 lcp, svi와 lcp 사이에는 상관관계가 높아 다중 공선성 문제가 발생할 수 있습니다.
 
-## 데이터 나누기
+### 데이터 나누기
 
 다음으로 트레이닝 셋과 테스트 셋을 분리하도록 합니다.
 
@@ -100,11 +93,11 @@ test = subset(prostate, train == FALSE)[, 1:9]
 
 train 열이 TRUE이면 트레이닝 셋, FALSE면 테스트 셋으로 나누어주도록 하며, 마지막 열인 train은 모형에 필요치 않으므로 이를 제외하고 선택해줍니다.
 
-## 모형화
+### 모형화
 
 먼저 최량 부분 집합 회귀를 실시한 후 규제화 기법을 활용하도록 합니다.
 
-### 최량 부분 집합
+#### 최량 부분 집합
 
 `regsubsets()` 함수를 이용해 최량 부분 집합 객체를 만듭니다.
 
@@ -146,7 +139,7 @@ print(mse.subfit)
 
 위의 `r round(mse.subfit, 2)` 값을 기준으로 삼은 후, 규제화 기법과 비교하도록 하겠습니다.
 
-### Ridge Regression
+#### Ridge Regression
 
 `glmnet()` 함수를 이용해 Ridge 회귀분석을 수행할 수 있으며, 해당 함수는 입력 피처가 데이터 프레임이 아닌 행렬의 형태여야 합니다. 다음과 같은 형태로 함수를 입력합니다.
 
@@ -199,7 +192,7 @@ print(ridge.mse)
 
 최량 부분 집합의 MSE 보다 약간 줄어들었습니다.
 
-### LASSO
+#### LASSO
 
 `glmnet()`의 alpha 인자를 1로 변경하면 간단하게 LASSO 분석을 실시할 수 있습니다.
 

@@ -33,8 +33,9 @@ knitr::include_graphics('images/animal.png')
 본 과정에서 사용되는 패키지는 다음과 같이 설치할 수 있습니다. (업데이트 중)
 
 ```{r}
-pkg = c('alr3', 'caret', 'ISLR', 'MASS',
-        'leaps', 'car', 'corrplot', 'lmtest')
+pkg = c('alr3', 'caret', 'ISLR', 'MASS', 'InformationValue',
+        'leaps', 'car', 'corrplot', 'lmtest', 'bestglm',
+        'ElemStatLearn')
 
 new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
 if (length(new.pkg)) {
