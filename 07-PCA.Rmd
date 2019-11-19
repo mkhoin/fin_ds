@@ -103,27 +103,15 @@ test = read.csv('https://raw.githubusercontent.com/datameister66/data/master/NHL
 - hits: 팀의 경기당 보디체크 평균 횟수
 - blks: 팀의 경기당 상대방 슛을 블로키한 횟수의 평균
 
-데이터를 평균 0, 표준편차 1로 표준화한 후, 상관관계를 구하도록 한다.
+데이터를 평균 0, 표준편차 1로 표준화한 후, 상관관계를 구하도록 합니다.
 
 ```{r}
 library(magrittr)
 
 train.scale = scale(train[, -1:-2])
 nhl.cor = cor(train.scale)
-nhl.cor %>% cor.plot()
+nhl.cor %>% corrplot()
 ```
-
-## 모형화
-
-PCA는 다음 단계를 거친다.
-
-1. 성분 추출 및 남길 성분의 수 결정
-2. 남은 성분을 회전
-3. 회전된 결과를 해석
-4. 요인 점수를 생성
-5. 요인 점수를 입력 변수로 사용해 회귀 분석을 하고, 테스트 데이터에 관한 평가
-
-R에서는 기본함수인 `prcomp()`, `princomp()` 함수를 통해 PCA 분석을 수행할 수 있으며, `psych` 패키지를 통해 더욱 다양한 분석을 할 수 있다.
 
 ### 성분 추출
 
@@ -134,35 +122,35 @@ pca = principal(train.scale, rotate = 'none')
 plot(pca$values, type = 'b', ylab = 'Eigenvalues', xlab = 'Component')
 ```
 
-5개 성분만으로도 충분한 설명력이 있는 것으로 보인다.
+`psych` 패키지의 `principal()` 함수를 통해 성분을 추출하도록 합니다. 5개 성분만으로도 충분한 설명력이 있는 것으로 보입니다.
 
 ### 직각 회전과 해석
 
-회전의 목적은 특정한 성분에 관해 변수의 기여도를 최대화함으로써 각 성분 사이의 상관 관계를 줄여 해석을 간단학 하는 것이다.
+회전의 목적은 특정한 성분에 관해 변수의 기여도를 최대화함으로써 각 성분 사이의 상관 관계를 줄여 해석을 간단학 하는 것입니다.
 
 ```{r}
 pca.rotate = principal(train.scale, nfactors = 5, rotate = 'varimax')
 print(pca.rotate)
 ```
 
-먼저 각 5개 성분에 관한 변수들의 기여도는 RC1부터 RC5까지 열로 구분되어 있다. RC1(성분1)은 **Goals_Against**와 **Shots_Against** 변수의 성분에 관한 기여도가 높은 양의 값이고, **PP_perc**와 **PK_perc** 변수의 기여도가 높은 음의 값이다.
+먼저 각 5개 성분에 관한 변수들의 기여도는 RC1부터 RC5까지 열로 구분되어 있습니다. RC1(성분1)은 **Goals_Against**와 **Shots_Against** 변수의 성분에 관한 기여도가 높은 양의 값이고, **PP_perc**와 **PK_perc** 변수의 기여도가 높은 음의 값입니다.
 
-RC2(성분2)은 **Goals_For** 변수가 높은 기여도를 가지고 있다. RC5는 **Shots_For, CF60_pp, OZFOperc_pp**가 높은 기여도를 갖고 있다. RC3는 **take** 변수만 연관이 있으며, RC4는 **hits** 변수와 연관이 있다.
+RC2(성분2)은 **Goals_For** 변수가 높은 기여도를 가지고 있으며, RC5는 **Shots_For, CF60_pp, OZFOperc_pp**가 높은 기여도를 갖고 있습니다. RC3는 **take** 변수만 연관이 있으며, RC4는 **hits** 변수와 연관이 있습니다.
 
-SS loadings 제곱합으로 시작하는 표의 숫자는 각 성분의 고윳값(Eigenvalue)이다. 이 고윳값이 정규화되면 Proportion Explained 행의 값이며, 서분 1이 5개의 회전된 성분 모두가 설명하는 분산의 28%를 설명하는 것을 볼 수 있다.
+SS loadings 제곱합으로 시작하는 표의 숫자는 각 성분의 고윳값(Eigenvalue) 입니다. 이 고윳값이 정규화되면 Proportion Explained 행의 값이며, 성분 1이 5개의 회전된 성분 모두가 설명하는 분산의 28%를 설명하는 것을 볼 수 있습니다.
 
-경험적으로 선택된 성분들이 설명하는 분산의 총합이 최소한 전체 분산의 70%를 넘어야 하며, Cumulative Var 행의 5개 성분 합이 총 74%의 분산을 나타내고 있다.
+경험적으로 선택된 성분들이 설명하는 분산의 총합이 최소한 전체 분산의 70%를 넘어야 하며, Cumulative Var 행의 5개 성분 합이 총 74%의 분산을 나타내고 있습니다.
 
 ### 요인 점수 생성
 
-회전된 성분들의 기여도를 각 팀의 요인 점수로 변환한다. 
+회전된 성분들의 기여도를 각 팀의 요인 점수로 변환합니다.
 
 ```{r}
 pca.scores = data.frame(pca.rotate$scores)
 head(pca.scores)
 ```
 
-독립변수(png)를 데이터의 열로 불러오도록 한다.
+독립변수(png)를 데이터의 열로 불러오도록 합니다.
 
 ```{r}
 pca.scores$ppg = train$ppg
@@ -175,14 +163,14 @@ nhl.lm = lm(ppg ~ ., data = pca.scores)
 summary(nhl.lm)
 ```
 
-$R^2$가 70%에 달하며, p값이 1.446e-06로 나와 통계적으로 높은 유의성을 갖고 있다. 그러나 RC1과 RC2를 제외한 3개 성분은 유의하지 않은 것으로 보인다. 두 가지 피처만을 대상으로 회귀분석을 다시 실시한다.
+$R^2$가 70%에 달하며, p값이 1.446e-06로 나와 통계적으로 높은 유의성을 갖고 있습니다. 그러나 RC1과 RC2를 제외한 3개 성분은 유의하지 않은 것으로 보입니다. 두 가지 피처만을 대상으로 회귀분석을 다시 실시합니다.
 
 ```{r}
 nhl.lm2 = lm(ppg ~ RC1 + RC2, data = pca.scores)
 summary(nhl.lm2)
 ```
 
-$R^2$가 역시나 70%에 가까우며, 통계적으로 유의한 모델이다.
+$R^2$가 역시나 70%에 가까우며, 통계적으로 유의한 모델입니다.
 
 ```{r}
 plot(nhl.lm2$fitted.values, train$ppg,
@@ -194,7 +182,7 @@ plot(nhl.lm2$fitted.values, train$ppg,
 sqrt(mean(nhl.lm2$residuals^2))
 ```
 
-평균 제곱 오차의 제곱근을 계산한 후 테스트 셋과 비교해보도록 한다.
+평균 제곱 오차의 제곱근을 계산한 후 테스트 셋과 비교해보도록 합니다.
 
 ```{r}
 test.scores = data.frame(predict(pca.rotate, test[, c(-1:-2)]))
