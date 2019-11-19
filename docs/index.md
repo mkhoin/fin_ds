@@ -17,3 +17,18 @@ github-repo: rstudio/bookdown-demo
 
 R을 이용한 금융 데이터 사이언스 과정 페이지 입니다.
 현재 머신러닝 파트만 업로드 중입니다.
+
+# 사용 패키지 {-}
+
+본 과정에서 사용되는 패키지는 다음과 같이 설치할 수 있습니다. (업데이트 중)
+
+
+```r
+pkg = c('alr3', 'caret', 'ISLR', 'MASS', 'InformationValue',
+        'leaps', 'car', 'corrplot', 'lmtest', 'bestglm',
+        'ElemStatLearn', 'psych', 'rpart.plot', 'xgboost')
+
+new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
+if (length(new.pkg)) {
+  install.packages(new.pkg, dependencies = TRUE)}
+```

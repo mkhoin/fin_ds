@@ -1,12 +1,3 @@
----
-title: "분류모형: KNN과 SVM"
-output: html_document
----
-
-```{r setup, include=FALSE}
-source('global.R')
-```
-
 # KNN과 SVM
 
 대표적인 분류모형인 KNN과 SVM에 대해 알아보도록 하겠습니다.
@@ -29,7 +20,7 @@ knitr::include_graphics('images/svm.png')
 
 SVM은 두 개의 데이터 그룹을 가장 잘 나누는 분류기를 찾는 방법입니다. 이 중 관찰값과 Margin이 만나는 부분을 Support Vector라 하며, 두 그룹 가운데의 음영부분(Margin)을 최대화 하는 선을 찾습니다. 일부 데이터의 경우 그룹을 완벽하게 분할할 수 없으므로 약간의 오류를 허용하며, wider margin과 lower total error penalty 간의 트레이드 오프를 최적화한 것을 Soft Margin Classification이라 합니다.
 
-# 데이터 불러오기 및 편집
+## 데이터 불러오기 및 편집
 
 국립 당뇨, 소화기 및 신장병 연구소에서 수집한 데이터를 사용하며, 532개 관찰값과 8개의 입력 피처 그리고 출력은 Y/N 을 갖습니다. 우리가 할 일은 인구 집단에서 당뇨를 앓거나 당뇨 위험 인자를 갖고 있는 개인들의 자료를 검사하고 당뇨병을 예측하는 것입니다.
 
@@ -140,7 +131,7 @@ $$Euclidean\ Distance(A, B) = \sqrt{\sum_{i=1}^{n}(p_i - q_i)^2}$$
 
 이는 피처를 측정할 때 사용한 스케일에 매우 종속적이므로 **스케일을 표준화하는 일은 매우 중요합니다.**
 
-## KNN
+### KNN
 
 KNN 기법을 사용할 때는 가장 적절한 파라미터(K)를 선택하는 일이 매우 중요합니다. K를 구하기 위해 caret 패키지를 이용하며, 실험을 위해 K의 입력값을 위한 격자망을 2부터 20까지 1씩 증가하도록 만듭니다. `expand.grid()` 함수와 `seq()` 함수를 이용하면 쉽게 만들 수 있습니다.
 
@@ -181,7 +172,7 @@ caret::confusionMatrix(knn.test, test$type)
 
 정확도가 0.7007로써, 기존 트레이닝 셋의 정확도인 0.7795에 비해 다소 감소하였습니다.
 
-## SVM
+### SVM
 
 SVM 모형화를 위해서는 e1071 패키지의 `tune.svm()` 함수를 이용하도록 합니다.
 

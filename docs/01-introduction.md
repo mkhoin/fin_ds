@@ -27,20 +27,7 @@
 상과 벌이라는 보상(reward)을 주며 상을 최대화하고 벌을 최소화 하도록 강화 학습하는 방식입니다. 알파고가 이 방법으로 학습 되었고, 주로 게임에서 최적의 동작을 찾는데 쓰는 학습 방식입니다.
 
 
-## 사용 패키지
 
-본 과정에서 사용되는 패키지는 다음과 같이 설치할 수 있습니다. (업데이트 중)
-
-
-```r
-pkg = c('alr3', 'caret', 'ISLR', 'MASS', 'InformationValue',
-        'leaps', 'car', 'corrplot', 'lmtest', 'bestglm',
-        'ElemStatLearn')
-
-new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
-if (length(new.pkg)) {
-  install.packages(new.pkg, dependencies = TRUE)}
-```
 
 
 
