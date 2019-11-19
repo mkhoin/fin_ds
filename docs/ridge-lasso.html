@@ -222,15 +222,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>암-전립선암 데이터를 통해 규제화 기법을 사용한 차이를 살펴보도록 하겠습니다.</p>
 <div id="데이터-불러오기-및-편집-1" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> 데이터 불러오기 및 편집</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(ElemStatLearn) <span class="co"># 데이터</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(car) <span class="co"># VIF 계싼</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(corrplot)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(leaps) <span class="co"># 최량 부분 집합 회귀</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(glmnet) <span class="co"># Ridge, Lasso</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(caret)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">data</span>(<span class="st">&quot;prostate&quot;</span>)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">str</span>(prostate)</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1"><span class="kw">library</span>(ElemStatLearn) <span class="co"># 데이터</span></a>
+<a class="sourceLine" id="cb118-2" data-line-number="2"><span class="kw">library</span>(car) <span class="co"># VIF 계싼</span></a>
+<a class="sourceLine" id="cb118-3" data-line-number="3"><span class="kw">library</span>(corrplot)</a>
+<a class="sourceLine" id="cb118-4" data-line-number="4"><span class="kw">library</span>(leaps) <span class="co"># 최량 부분 집합 회귀</span></a>
+<a class="sourceLine" id="cb118-5" data-line-number="5"><span class="kw">library</span>(glmnet) <span class="co"># Ridge, Lasso</span></a>
+<a class="sourceLine" id="cb118-6" data-line-number="6"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb118-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb118-8" data-line-number="8"><span class="kw">data</span>(<span class="st">&quot;prostate&quot;</span>)</a>
+<a class="sourceLine" id="cb118-9" data-line-number="9"><span class="kw">str</span>(prostate)</a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    97 obs. of  10 variables:
 ##  $ lcavol : num  -0.58 -0.994 -0.511 -1.204 0.751 ...
 ##  $ lweight: num  2.77 3.32 2.69 3.28 3.43 ...
@@ -256,7 +256,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>train: 트레이닝, 테스트셋 데이터 여부</li>
 </ul>
 <p>먼저 gleason의 분포를 확인해보도록 하겠습니다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">table</span>(prostate<span class="op">$</span>gleason)</a></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="kw">table</span>(prostate<span class="op">$</span>gleason)</a></code></pre></div>
 <pre><code>## 
 ##  6  7  8  9 
 ## 35 56  1  5</code></pre>
@@ -267,30 +267,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>해당 피처를 바꿔 새로운 변수를 만듬</li>
 </ul>
 <p>이를 위해 글리슨 점수와 lpsa의 관계를 그림으로 살펴보도록 합니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(magrittr)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">prostate <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gleason, <span class="dt">y =</span> lpsa, <span class="dt">group =</span> gleason)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() </a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb122-2" data-line-number="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb122-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb122-4" data-line-number="4">prostate <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb122-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> gleason, <span class="dt">y =</span> lpsa, <span class="dt">group =</span> gleason)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb122-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() </a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-4-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>7~9점의 lpsa가 상당히 크므로, 피처를 남겨두는 것이 좋습니다. 따라서 글리슨 점수가 6점 일 때는 0, 7점 이상인 경우에는 1로 바꾸도록 합니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">prostate<span class="op">$</span>gleason =<span class="st"> </span><span class="kw">ifelse</span>(prostate<span class="op">$</span>gleason <span class="op">==</span><span class="st"> </span><span class="dv">6</span>, <span class="dv">0</span>, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">table</span>(prostate<span class="op">$</span>gleason)</a></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">prostate<span class="op">$</span>gleason =<span class="st"> </span><span class="kw">ifelse</span>(prostate<span class="op">$</span>gleason <span class="op">==</span><span class="st"> </span><span class="dv">6</span>, <span class="dv">0</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="kw">table</span>(prostate<span class="op">$</span>gleason)</a></code></pre></div>
 <pre><code>## 
 ##  0  1 
 ## 35 62</code></pre>
 <p>이번에는 각 피처간의 상관관계를 살펴보도록 합니다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">cor</span>(prostate) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span>corrplot.mixed</a></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">cor</span>(prostate) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb125-2" data-line-number="2"><span class="st">  </span>corrplot.mixed</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>lpsa와 lcavol, lcavol과 lcp, svi와 lcp 사이에는 상관관계가 높아 다중 공선성 문제가 발생할 수 있습니다.</p>
 </div>
 <div id="데이터-나누기-1" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> 데이터 나누기</h3>
 <p>다음으로 트레이닝 셋과 테스트 셋을 분리하도록 합니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">train =<span class="st"> </span><span class="kw">subset</span>(prostate, train <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)[, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">test =<span class="st"> </span><span class="kw">subset</span>(prostate, train <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)[, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1">train =<span class="st"> </span><span class="kw">subset</span>(prostate, train <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)[, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</a>
+<a class="sourceLine" id="cb126-2" data-line-number="2">test =<span class="st"> </span><span class="kw">subset</span>(prostate, train <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)[, <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</a></code></pre></div>
 <p>train 열이 TRUE이면 트레이닝 셋, FALSE면 테스트 셋으로 나누어주도록 하며, 마지막 열인 train은 모형에 필요치 않으므로 이를 제외하고 선택해줍니다.</p>
 </div>
 <div id="모형화-1" class="section level3">
@@ -299,28 +299,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="최량-부분-집합" class="section level4">
 <h4><span class="header-section-number">4.2.3.1</span> 최량 부분 집합</h4>
 <p><code>regsubsets()</code> 함수를 이용해 최량 부분 집합 객체를 만듭니다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">subfit =<span class="st"> </span><span class="kw">regsubsets</span>(lpsa <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">b.sum =<span class="st"> </span><span class="kw">summary</span>(subfit)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw">which.min</span>(b.sum<span class="op">$</span>bic)</a></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">subfit =<span class="st"> </span><span class="kw">regsubsets</span>(lpsa <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train)</a>
+<a class="sourceLine" id="cb127-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb127-3" data-line-number="3">b.sum =<span class="st"> </span><span class="kw">summary</span>(subfit)</a>
+<a class="sourceLine" id="cb127-4" data-line-number="4"><span class="kw">which.min</span>(b.sum<span class="op">$</span>bic)</a></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">plot</span>(b.sum<span class="op">$</span>bic, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;# of features&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;BIC&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw">plot</span>(b.sum<span class="op">$</span>bic, <span class="dt">type =</span> <span class="st">&#39;l&#39;</span>, <span class="dt">xlab =</span> <span class="st">&#39;# of features&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;BIC&#39;</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>세 가지 피처를 사용한 모형이 가장 낮은 BIC를 보입니다. 도표를 통해 좀 더 자세하게 비교하도록 합니다.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">plot</span>(subfit, <span class="dt">scale =</span> <span class="st">&#39;bic&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">plot</span>(subfit, <span class="dt">scale =</span> <span class="st">&#39;bic&#39;</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-9-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>lcavol, lweight, gleason 3개의 결합에서 가장 낮은 BIC를 보입니다. 이제 해당 모형을 통해 OLS 회귀분석을 실시합니다.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">ols =<span class="st"> </span><span class="kw">lm</span>(lpsa <span class="op">~</span><span class="st"> </span>lcavol <span class="op">+</span><span class="st"> </span>lweight <span class="op">+</span><span class="st"> </span>gleason, <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">plot</span>(ols<span class="op">$</span>fitted.values, train<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1">ols =<span class="st"> </span><span class="kw">lm</span>(lpsa <span class="op">~</span><span class="st"> </span>lcavol <span class="op">+</span><span class="st"> </span>lweight <span class="op">+</span><span class="st"> </span>gleason, <span class="dt">data =</span> train)</a>
+<a class="sourceLine" id="cb131-2" data-line-number="2"><span class="kw">plot</span>(ols<span class="op">$</span>fitted.values, train<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>둘 간에는 선형 관계가 보입니다. 이번에는 <code>predict()</code> 함수를 이용해 해당 모형을 테스트 셋에 적용해보도록 합니다.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">pred.subfit =<span class="st"> </span><span class="kw">predict</span>(ols, <span class="dt">newdata =</span> test)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">plot</span>(pred.subfit, test<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1">pred.subfit =<span class="st"> </span><span class="kw">predict</span>(ols, <span class="dt">newdata =</span> test)</a>
+<a class="sourceLine" id="cb132-2" data-line-number="2"><span class="kw">plot</span>(pred.subfit, test<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>마지막으로 MSE를 계산하도록 합니다.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">resid.subfit =<span class="st"> </span>test<span class="op">$</span>lpsa <span class="op">-</span><span class="st"> </span>pred.subfit</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">mse.subfit =<span class="st"> </span><span class="kw">mean</span>(resid.subfit <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw">print</span>(mse.subfit)</a></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1">resid.subfit =<span class="st"> </span>test<span class="op">$</span>lpsa <span class="op">-</span><span class="st"> </span>pred.subfit</a>
+<a class="sourceLine" id="cb133-2" data-line-number="2">mse.subfit =<span class="st"> </span><span class="kw">mean</span>(resid.subfit <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb133-3" data-line-number="3"><span class="kw">print</span>(mse.subfit)</a></code></pre></div>
 <pre><code>## [1] 0.5084</code></pre>
 <p>위의 0.51 값을 기준으로 삼은 후, 규제화 기법과 비교하도록 하겠습니다.</p>
 </div>
@@ -329,46 +329,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>glmnet()</code> 함수를 이용해 Ridge 회귀분석을 수행할 수 있으며, 해당 함수는 입력 피처가 데이터 프레임이 아닌 행렬의 형태여야 합니다. 다음과 같은 형태로 함수를 입력합니다.</p>
 <p><span class="math display">\[glmnet(x = 입력 데이터 행렬, y = 반응값, family = 분포 방법, alpha = 0)\]</span></p>
 <p>이 중 alpha가 0이면 Ridge Regression, 1이면 LASSO 방법으로 분석을 합니다. 먼저 Ridge Regression을 수행합니다.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">x =<span class="st"> </span><span class="kw">as.matrix</span>(train[, <span class="dv">1</span><span class="op">:</span><span class="dv">8</span>])</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">y =<span class="st"> </span>train[, <span class="dv">9</span>]</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">ridge =<span class="st"> </span><span class="kw">glmnet</span>(x, y, <span class="dt">family =</span> <span class="st">&#39;gaussian&#39;</span>, <span class="dt">alpha =</span> <span class="dv">0</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">print</span>(ridge)</a></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1">x =<span class="st"> </span><span class="kw">as.matrix</span>(train[, <span class="dv">1</span><span class="op">:</span><span class="dv">8</span>])</a>
+<a class="sourceLine" id="cb135-2" data-line-number="2">y =<span class="st"> </span>train[, <span class="dv">9</span>]</a>
+<a class="sourceLine" id="cb135-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb135-4" data-line-number="4">ridge =<span class="st"> </span><span class="kw">glmnet</span>(x, y, <span class="dt">family =</span> <span class="st">&#39;gaussian&#39;</span>, <span class="dt">alpha =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw">print</span>(ridge)</a></code></pre></div>
 <p><img src="images/ridge.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>마지막 100번째 결과를 살펴보면 사용하는 피처의 수가 여전히 8개입니다. 편차의 백분율은 0.6971이고, 람다 값은 0.08789 입니다.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">plot</span>(ridge, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">plot</span>(ridge, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(y\)</span>축은 계수의 값이고, <span class="math inline">\(x\)</span>축은 L1-norm 입니다. 이번에는 람다 값이 바뀜에 따라 계수의 값이 어떻게 바뀌는지 살펴보도록 합니다.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">plot</span>(ridge, <span class="dt">xvar =</span> <span class="st">&#39;lambda&#39;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="kw">plot</span>(ridge, <span class="dt">xvar =</span> <span class="st">&#39;lambda&#39;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-17-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>람다 값이 줄어들수록 벌점이 줄어들고 계수의 절대값이 올라갑니다. 해당 모형을 테스트 셋에 적용해 보도록 합니다.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">newx =<span class="st"> </span><span class="kw">as.matrix</span>(test[, <span class="dv">1</span><span class="op">:</span><span class="dv">8</span>])</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">ridge.y =<span class="st"> </span><span class="kw">predict</span>(ridge, <span class="dt">newx =</span> newx, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>, <span class="dt">s =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">plot</span>(ridge.y, test<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;Ridge Regression&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1">newx =<span class="st"> </span><span class="kw">as.matrix</span>(test[, <span class="dv">1</span><span class="op">:</span><span class="dv">8</span>])</a>
+<a class="sourceLine" id="cb139-2" data-line-number="2">ridge.y =<span class="st"> </span><span class="kw">predict</span>(ridge, <span class="dt">newx =</span> newx, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>, <span class="dt">s =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb139-3" data-line-number="3"><span class="kw">plot</span>(ridge.y, test<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;Ridge Regression&#39;</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-18-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>마지막으로 MSE를 계산하도록 합니다.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">ridge.resid =<span class="st"> </span>ridge.y <span class="op">-</span><span class="st"> </span>test<span class="op">$</span>lpsa</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">ridge.mse =<span class="st"> </span><span class="kw">mean</span>(ridge.resid<span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="kw">print</span>(ridge.mse)</a></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1">ridge.resid =<span class="st"> </span>ridge.y <span class="op">-</span><span class="st"> </span>test<span class="op">$</span>lpsa</a>
+<a class="sourceLine" id="cb140-2" data-line-number="2">ridge.mse =<span class="st"> </span><span class="kw">mean</span>(ridge.resid<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb140-3" data-line-number="3"><span class="kw">print</span>(ridge.mse)</a></code></pre></div>
 <pre><code>## [1] 0.4784</code></pre>
 <p>최량 부분 집합의 MSE 보다 약간 줄어들었습니다.</p>
 </div>
 <div id="lasso" class="section level4">
 <h4><span class="header-section-number">4.2.3.3</span> LASSO</h4>
 <p><code>glmnet()</code>의 alpha 인자를 1로 변경하면 간단하게 LASSO 분석을 실시할 수 있습니다.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">lasso =<span class="st"> </span><span class="kw">glmnet</span>(x, y, <span class="dt">family =</span> <span class="st">&#39;gaussian&#39;</span>, <span class="dt">alpha =</span> <span class="dv">1</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">print</span>(lasso)</a></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">lasso =<span class="st"> </span><span class="kw">glmnet</span>(x, y, <span class="dt">family =</span> <span class="st">&#39;gaussian&#39;</span>, <span class="dt">alpha =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" data-line-number="1"><span class="kw">print</span>(lasso)</a></code></pre></div>
 <p><img src="images/lasso.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>모형의 람다 값이 줄어드는 데도 편차가 더 이상 나아지지 않아 69번째에서 멈추게 됩니다.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">plot</span>(lasso, <span class="dt">xvar =</span> <span class="st">&#39;lambda&#39;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="kw">plot</span>(lasso, <span class="dt">xvar =</span> <span class="st">&#39;lambda&#39;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-23-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>해당 모델을 테스트 셋에 적용하고 MSE를 구하도록 합니다.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">lasso.y =<span class="st"> </span><span class="kw">predict</span>(lasso, <span class="dt">newx =</span> newx, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>, <span class="dt">s =</span> <span class="fl">0.045</span>)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">plot</span>(lasso.y, test<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;LASSO&#39;</span>)</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb28-4" data-line-number="4">lasso.resid =<span class="st"> </span>lasso.y <span class="op">-</span><span class="st"> </span>test<span class="op">$</span>lpsa</a>
-<a class="sourceLine" id="cb28-5" data-line-number="5">lasso.mse =<span class="st"> </span><span class="kw">mean</span>(lasso.resid <span class="op">^</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="kw">print</span>(lasso.mse)</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1">lasso.y =<span class="st"> </span><span class="kw">predict</span>(lasso, <span class="dt">newx =</span> newx, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>, <span class="dt">s =</span> <span class="fl">0.045</span>)</a>
+<a class="sourceLine" id="cb145-2" data-line-number="2"><span class="kw">plot</span>(lasso.y, test<span class="op">$</span>lpsa, <span class="dt">xlab =</span> <span class="st">&#39;Predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Actual&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;LASSO&#39;</span>)</a>
+<a class="sourceLine" id="cb145-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb145-4" data-line-number="4">lasso.resid =<span class="st"> </span>lasso.y <span class="op">-</span><span class="st"> </span>test<span class="op">$</span>lpsa</a>
+<a class="sourceLine" id="cb145-5" data-line-number="5">lasso.mse =<span class="st"> </span><span class="kw">mean</span>(lasso.resid <span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb145-6" data-line-number="6"><span class="kw">print</span>(lasso.mse)</a></code></pre></div>
 <pre><code>## [1] 0.4437</code></pre>
 <p><img src="04-penalized_regression_files/figure-html/unnamed-chunk-24-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>가장 낮은 MSE를 보입니다. 3가지 모형의 MSE를 비교하면 다음과 같습니다.</p>

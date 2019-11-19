@@ -33,8 +33,9 @@
 
 
 ```r
-pkg = c('alr3', 'caret', 'ISLR', 'MASS',
-        'leaps', 'car', 'corrplot', 'lmtest')
+pkg = c('alr3', 'caret', 'ISLR', 'MASS', 'InformationValue',
+        'leaps', 'car', 'corrplot', 'lmtest', 'bestglm',
+        'ElemStatLearn')
 
 new.pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
 if (length(new.pkg)) {

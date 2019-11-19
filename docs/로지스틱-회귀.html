@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="회귀분석.html"/>
-
+<link rel="next" href="ridge-lasso.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -173,6 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.6" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#bic-기준-최적의-피처-선택"><i class="fa fa-check"></i><b>3.6</b> BIC 기준 최적의 피처 선택</a></li>
 <li class="chapter" data-level="3.7" data-path="로지스틱-회귀.html"><a href="로지스틱-회귀.html#roc"><i class="fa fa-check"></i><b>3.7</b> ROC</a></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="ridge-lasso.html"><a href="ridge-lasso.html"><i class="fa fa-check"></i><b>4</b> RIDGE &amp; LASSO</a><ul>
+<li class="chapter" data-level="4.1" data-path="ridge-lasso.html"><a href="ridge-lasso.html#규제화"><i class="fa fa-check"></i><b>4.1</b> 규제화</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="ridge-lasso.html"><a href="ridge-lasso.html#규제화의-종류"><i class="fa fa-check"></i><b>4.1.1</b> 규제화의 종류</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ridge-lasso.html"><a href="ridge-lasso.html#전립선암-데이터-분석"><i class="fa fa-check"></i><b>4.2</b> 전립선암 데이터 분석</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="ridge-lasso.html"><a href="ridge-lasso.html#데이터-불러오기-및-편집-1"><i class="fa fa-check"></i><b>4.2.1</b> 데이터 불러오기 및 편집</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ridge-lasso.html"><a href="ridge-lasso.html#데이터-나누기-1"><i class="fa fa-check"></i><b>4.2.2</b> 데이터 나누기</a></li>
+<li class="chapter" data-level="4.2.3" data-path="ridge-lasso.html"><a href="ridge-lasso.html#모형화-1"><i class="fa fa-check"></i><b>4.2.3</b> 모형화</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="http://henryquant.blogspot.com/" target="blank">Henry's Quantopia</a></li>
 
@@ -214,8 +224,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="입학-데이터-분석" class="section level2">
 <h2><span class="header-section-number">3.3</span> 입학 데이터 분석</h2>
 <p>GRE, GPA, RANK가 입학(admission)에 어떤 영향을 주는지 로지스틱 회귀분석을 통해 분석하도록 하겠습니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">admission =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://stats.idre.ucla.edu/stat/data/binary.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">head</span>(admission)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">admission =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://stats.idre.ucla.edu/stat/data/binary.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="kw">head</span>(admission)</a></code></pre></div>
 <pre><code>##   admit gre  gpa rank
 ## 1     0 380 3.61    3
 ## 2     1 660 3.67    3
@@ -224,8 +234,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5     0 520 2.93    4
 ## 6     1 760 3.00    2</code></pre>
 <p><code>glm()</code> 함수를 이용하여 로지스틱 회귀분석을 실시합니다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">ad.logit =<span class="st"> </span><span class="kw">glm</span>(admit <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> binomial, <span class="dt">data =</span> admission)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">summary</span>(ad.logit)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">ad.logit =<span class="st"> </span><span class="kw">glm</span>(admit <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> binomial, <span class="dt">data =</span> admission)</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="kw">summary</span>(ad.logit)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = admit ~ ., family = binomial, data = admission)
@@ -251,20 +261,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>모든 변수가 유의미한 결과를 보입니다. 로지스틱 회귀에서는 OLS와는 다르게 피처의 계수를 <span class="math inline">\(X\)</span>가 한 단위 변화할 때 <span class="math inline">\(Y\)</span>가 변화하는 양을 나타낸다고 해석할 수 없습니다. 로그 함수에서 <span class="math inline">\(\beta\)</span>라는 계수는 오즈비 <span class="math inline">\(e^\beta\)</span>로 변환해 해석해야 합니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">exp</span>(<span class="kw">coef</span>(ad.logit))</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">exp</span>(<span class="kw">coef</span>(ad.logit))</a></code></pre></div>
 <pre><code>## (Intercept)         gre         gpa        rank 
 ##     0.03176     1.00230     2.17497     0.57119</code></pre>
 <p>오즈비는 피처가 한 단위 변했을 때 나타나는 결과의 오지로 해석할 수 있습니다. 만일 이 값이 1보다 크면 피처가 증가할 때 결과의 오즈도 증가하며, 1보다 작으면 피처가 증가할 때 결과의 오즈는 감소합니다.</p>
 <p>위의 예에서 gre와 gpa는 로그 오즈를 증가시키지만, rank는 로그 오즈를 감소시킵니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">ad.probs =<span class="st"> </span>ad.logit<span class="op">$</span>fitted.values</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">ad.probs =<span class="st"> </span><span class="kw">ifelse</span>(ad.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">ad.probs =<span class="st"> </span>ad.logit<span class="op">$</span>fitted.values</a>
+<a class="sourceLine" id="cb71-2" data-line-number="2">ad.probs =<span class="st"> </span><span class="kw">ifelse</span>(ad.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a></code></pre></div>
 <p>회귀분석 결과의 fitted.values에는 확률이 저장되어 있으며, 해당 값이 0.5보다 크면 1, 그렇지 않으면 0로 변환해줍니다. 이를 실제 데이터와 비교해보도록 합니다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">table</span>(ad.probs, admission<span class="op">$</span>admit)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw">table</span>(ad.probs, admission<span class="op">$</span>admit)</a></code></pre></div>
 <pre><code>##         
 ## ad.probs   0   1
 ##        0 253  98
 ##        1  20  29</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(ad.probs, admission<span class="op">$</span>admit))</a></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(ad.probs, admission<span class="op">$</span>admit))</a></code></pre></div>
 <pre><code>##         
 ## ad.probs      0      1
 ##        0 0.6325 0.2450
@@ -276,10 +286,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>위스콘신 유방암 데이터를 통해 종양이 양성 혹은 악성인지에 대해 예측해보도록 하겠습니다. 해당 데이터는 MASS 패키지의 <code>biopsy</code> 이름으로 저장되어 있습니다.</p>
 <div id="데이터-불러오기-및-편집" class="section level3">
 <h3><span class="header-section-number">3.4.1</span> 데이터 불러오기 및 편집</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(MASS)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw">data</span>(biopsy)</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw">str</span>(biopsy)</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="kw">library</span>(MASS)</a>
+<a class="sourceLine" id="cb76-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb76-3" data-line-number="3"><span class="kw">data</span>(biopsy)</a>
+<a class="sourceLine" id="cb76-4" data-line-number="4"><span class="kw">str</span>(biopsy)</a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    699 obs. of  11 variables:
 ##  $ ID   : chr  &quot;1000025&quot; &quot;1002945&quot; &quot;1015425&quot; &quot;1016277&quot; ...
 ##  $ V1   : int  5 5 3 6 4 8 1 2 2 4 ...
@@ -307,11 +317,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>class: 종양의 진단의 결과, 양성 또는 악성. 우리가 예측하려는 결과</li>
 </ul>
 <p>피처명이 입력되어 있지 않으므로, 이를 입력해주도록 합니다.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">biopsy<span class="op">$</span>ID =<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">names</span>(biopsy) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;thick&#39;</span>, <span class="st">&#39;u.size&#39;</span>, <span class="st">&#39;u.shape&#39;</span>, <span class="st">&#39;adhsn&#39;</span>, <span class="st">&#39;s.size&#39;</span>,</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">                  <span class="st">&#39;nucl&#39;</span>, <span class="st">&#39;chrom&#39;</span>, <span class="st">&#39;n.nuc&#39;</span>, <span class="st">&#39;mit&#39;</span>, <span class="st">&#39;class&#39;</span>)</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw">head</span>(biopsy)</a></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">biopsy<span class="op">$</span>ID =<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="kw">names</span>(biopsy) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;thick&#39;</span>, <span class="st">&#39;u.size&#39;</span>, <span class="st">&#39;u.shape&#39;</span>, <span class="st">&#39;adhsn&#39;</span>, <span class="st">&#39;s.size&#39;</span>,</a>
+<a class="sourceLine" id="cb78-3" data-line-number="3">                  <span class="st">&#39;nucl&#39;</span>, <span class="st">&#39;chrom&#39;</span>, <span class="st">&#39;n.nuc&#39;</span>, <span class="st">&#39;mit&#39;</span>, <span class="st">&#39;class&#39;</span>)</a>
+<a class="sourceLine" id="cb78-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb78-5" data-line-number="5"><span class="kw">head</span>(biopsy)</a></code></pre></div>
 <pre><code>##   thick u.size u.shape adhsn s.size nucl chrom n.nuc mit     class
 ## 1     5      1       1     1      2    1     3     1   1    benign
 ## 2     5      4       4     5      7   10     3     2   1    benign
@@ -320,37 +330,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5     4      1       1     3      2    1     3     1   1    benign
 ## 6     8     10      10     8      7   10     9     7   1 malignant</code></pre>
 <p>다음으로 결측 관측치를 삭제 및 데이터를 변형해줍니다.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">sum</span>(<span class="kw">is.na</span>(biopsy))</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">sum</span>(<span class="kw">is.na</span>(biopsy))</a></code></pre></div>
 <pre><code>## [1] 16</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">biopsy.v2 =<span class="st"> </span><span class="kw">na.omit</span>(biopsy)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">y =<span class="st"> </span><span class="kw">ifelse</span>(biopsy.v2<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="kw">table</span>(y)</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1">biopsy.v2 =<span class="st"> </span><span class="kw">na.omit</span>(biopsy)</a>
+<a class="sourceLine" id="cb82-2" data-line-number="2">y =<span class="st"> </span><span class="kw">ifelse</span>(biopsy.v2<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb82-3" data-line-number="3"><span class="kw">table</span>(y)</a></code></pre></div>
 <pre><code>## y
 ##   0   1 
 ## 444 239</code></pre>
 <p>총 16개의 na 데이터가 존재하며, <code>na.omit()</code> 함수를 통해 해당 데이터를 모두 지워주도록 합니다. 또한 예측변수 y에는 class가 malignant(악성)일 경우 1, 그렇지 않을 경우 0을 입력합니다.</p>
 <p><code>gather()</code> 함수를 통해 테이블을 변경한 후, <code>ggplot()</code> 함수를 통해 각 class 별 피처들의 분포를 살펴보도록 합니다.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">library</span>(tidyr)</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="kw">library</span>(magrittr)</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">biop.m =<span class="st"> </span>biopsy.v2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="st">  </span><span class="kw">gather</span>(key, value, <span class="op">-</span>class)</a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb20-9" data-line-number="9">biop.m <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> value)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="st">  </span><span class="kw">facet_wrap</span>( <span class="op">~</span><span class="st"> </span>key)</a></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb84-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb84-3" data-line-number="3"><span class="kw">library</span>(tidyr)</a>
+<a class="sourceLine" id="cb84-4" data-line-number="4"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb84-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb84-6" data-line-number="6">biop.m =<span class="st"> </span>biopsy.v2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb84-7" data-line-number="7"><span class="st">  </span><span class="kw">gather</span>(key, value, <span class="op">-</span>class)</a>
+<a class="sourceLine" id="cb84-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb84-9" data-line-number="9">biop.m <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb84-10" data-line-number="10"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> class, <span class="dt">y =</span> value)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb84-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb84-12" data-line-number="12"><span class="st">  </span><span class="kw">facet_wrap</span>( <span class="op">~</span><span class="st"> </span>key)</a></code></pre></div>
 <p><img src="03-logistic_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>다중공선성 확인을 위해 상관관계를 검사하도록 합니다.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">library</span>(corrplot)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">bc =<span class="st"> </span>biopsy.v2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>class) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="st">  </span><span class="kw">cor</span>()</a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="kw">corrplot.mixed</span>(bc)</a></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">library</span>(corrplot)</a>
+<a class="sourceLine" id="cb85-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb85-3" data-line-number="3">bc =<span class="st"> </span>biopsy.v2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb85-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>class) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb85-5" data-line-number="5"><span class="st">  </span><span class="kw">cor</span>()</a>
+<a class="sourceLine" id="cb85-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb85-7" data-line-number="7"><span class="kw">corrplot.mixed</span>(bc)</a></code></pre></div>
 <p><img src="03-logistic_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>u.size와 u.shape 간 상관관계가 0.91로 다중공선성 문제가 두드러져 보입니다.</p>
 </div>
@@ -358,18 +368,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">3.4.2</span> 데이터 나누기</h3>
 <p>기존에는 모든 데이터를 이용하여 모델을 훈련시켰습니다. 그러나 모델의 예측력을 평가하기 위해서는 모델링에 사용되지 않은 데이터와 평가하야 합니다. 이를 위해 트레이닝 및 테스트 세트로 나누도록 합니다. 일반적으로 트레이닝과 테스트 셋의 비율은 7:3 혹은 8:2로 합니다.</p>
 <p><img src="images/data_split.png" width="50%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb22-3" data-line-number="3">ind =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span>, <span class="kw">nrow</span>(biopsy.v2), <span class="dt">replace =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb22-4" data-line-number="4">             <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6">train =<span class="st"> </span>biopsy.v2[ind<span class="op">==</span><span class="dv">1</span>, ]</a>
-<a class="sourceLine" id="cb22-7" data-line-number="7">test =<span class="st"> </span>biopsy.v2[ind<span class="op">==</span><span class="dv">2</span>, ]</a></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(train<span class="op">$</span>class))</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb86-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb86-3" data-line-number="3">ind =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span>, <span class="kw">nrow</span>(biopsy.v2), <span class="dt">replace =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb86-4" data-line-number="4">             <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>))</a>
+<a class="sourceLine" id="cb86-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb86-6" data-line-number="6">train =<span class="st"> </span>biopsy.v2[ind<span class="op">==</span><span class="dv">1</span>, ]</a>
+<a class="sourceLine" id="cb86-7" data-line-number="7">test =<span class="st"> </span>biopsy.v2[ind<span class="op">==</span><span class="dv">2</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(train<span class="op">$</span>class))</a></code></pre></div>
 <pre><code>## 
 ##    benign malignant 
 ##    0.6371    0.3629</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(test<span class="op">$</span>class))</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(test<span class="op">$</span>class))</a></code></pre></div>
 <pre><code>## 
 ##    benign malignant 
 ##    0.6794    0.3206</code></pre>
@@ -378,8 +388,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="모형화" class="section level3">
 <h3><span class="header-section-number">3.4.3</span> 모형화</h3>
 <p>먼저 모든 입력 변수로 로지스틱 모형을 만든 후 점차 줄여 나가며 최량 부분 집합을 생성하도록 합니다.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">full.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> binomial, <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">summary</span>(full.fit)</a></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1">full.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> binomial, <span class="dt">data =</span> train)</a>
+<a class="sourceLine" id="cb91-2" data-line-number="2"><span class="kw">summary</span>(full.fit)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = class ~ ., family = binomial, data = train)
@@ -410,27 +420,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## AIC: 98.37
 ## 
 ## Number of Fisher Scoring iterations: 8</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">exp</span>(<span class="kw">coef</span>(full.fit)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="kw">exp</span>(<span class="kw">coef</span>(full.fit)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>## (Intercept)       thick      u.size     u.shape       adhsn      s.size 
 ##      0.0001      1.6909      0.9007      1.3228      1.3615      1.3319 
 ##        nucl       chrom       n.nuc         mit 
 ##      1.5003      1.3148      1.2516      1.5367</code></pre>
 <p>위 예제에서 u.size를 제외한 모든 피처가 로그 오즈를 증가시킵니다. 다음으로 다중공선성을 확인합니다.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(car)</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">vif</span>(full.fit)</a></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">library</span>(car)</a>
+<a class="sourceLine" id="cb95-2" data-line-number="2"><span class="kw">vif</span>(full.fit)</a></code></pre></div>
 <pre><code>##   thick  u.size u.shape   adhsn  s.size    nucl   chrom   n.nuc     mit 
 ##   1.235   3.249   2.830   1.302   1.636   1.373   1.523   1.343   1.060</code></pre>
 <p>위의 값들 중 어느 것도 통계값이 5보다 크지 않으므로 공선성을 크게 문제가 되지 안습니다.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">train.probs =<span class="st"> </span>full.fit<span class="op">$</span>fitted.values</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw">head</span>(train.probs)</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1">train.probs =<span class="st"> </span>full.fit<span class="op">$</span>fitted.values</a>
+<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="kw">head</span>(train.probs)</a></code></pre></div>
 <pre><code>##       1       3       6       7       9      10 
 ## 0.02053 0.01088 0.99993 0.08987 0.01379 0.00842</code></pre>
 <p>확률을 선택한 후, 해당 값이 0.5보다 클 경우 1, 아닐 경우 0으로 구분합니다. 그 후 train 데이터의 class와 비교하여 예측 정확도를 비교해보도록 한다.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">train.bi =<span class="st"> </span><span class="kw">ifelse</span>(train.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">train.class =<span class="st"> </span><span class="kw">ifelse</span>(train<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb35-4" data-line-number="4">true.ratio =<span class="st"> </span><span class="kw">prop.table</span>(<span class="kw">table</span>(train.bi, train.class))</a>
-<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="kw">print</span>(true.ratio[<span class="dv">1</span>,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>true.ratio[<span class="dv">2</span>,<span class="dv">2</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1">train.bi =<span class="st"> </span><span class="kw">ifelse</span>(train.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
+<a class="sourceLine" id="cb99-2" data-line-number="2">train.class =<span class="st"> </span><span class="kw">ifelse</span>(train<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
+<a class="sourceLine" id="cb99-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb99-4" data-line-number="4">true.ratio =<span class="st"> </span><span class="kw">prop.table</span>(<span class="kw">table</span>(train.bi, train.class))</a>
+<a class="sourceLine" id="cb99-5" data-line-number="5"><span class="kw">print</span>(true.ratio[<span class="dv">1</span>,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>true.ratio[<span class="dv">2</span>,<span class="dv">2</span>])</a></code></pre></div>
 <pre><code>## [1] 0.9684</code></pre>
 <p>예측 정확도가 0.6203, 0.0169, 0.0148, 0.3481로 매우 높게 나타납니다.</p>
 <div id="혼돈-행렬confusion-matrix-이해하기" class="section level4">
@@ -455,7 +465,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>F 점수(F-score): <span class="math inline">\(\frac{2 \times 정밀도 \times 재현율}{재현율 + 정밀도} = \frac{2 \times TP}{2 \times TP + FP+ FN}\)</span>, 조화 평균을 이용하여 정밀도와 재현율을 결합</p></li>
 </ul>
 <p>혼돈 행렬은 caret 패키지의 <code>confusionMatrix(predict, truth)</code> 함수를 이용해 계산할 수 있습니다.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(train.bi, train.class)</a></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(train.bi, train.class)</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -489,12 +499,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="테스트-셋에-적용" class="section level3">
 <h3><span class="header-section-number">3.4.4</span> 테스트 셋에 적용</h3>
 <p>위 모형은 트레이닝 셋을 대상으로 만들어졌습니다. 따라서 모형에 포함되지 않은 데이터인 테스트 셋의 데이터를 대상으로 모델의 정확도를 구해보도록 합니다.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">test.probs =<span class="st"> </span><span class="kw">predict</span>(full.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb39-3" data-line-number="3">test.bi =<span class="st"> </span><span class="kw">ifelse</span>(test.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
-<a class="sourceLine" id="cb39-4" data-line-number="4">test.class =<span class="st"> </span><span class="kw">ifelse</span>(test<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
-<a class="sourceLine" id="cb39-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb39-6" data-line-number="6">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test.bi, test.class)</a></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1">test.probs =<span class="st"> </span><span class="kw">predict</span>(full.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
+<a class="sourceLine" id="cb103-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb103-3" data-line-number="3">test.bi =<span class="st"> </span><span class="kw">ifelse</span>(test.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
+<a class="sourceLine" id="cb103-4" data-line-number="4">test.class =<span class="st"> </span><span class="kw">ifelse</span>(test<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
+<a class="sourceLine" id="cb103-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb103-6" data-line-number="6">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test.bi, test.class)</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -531,13 +541,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/kfolds.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>bestglm 패키지를 이용하여 교차 검증을 이용한 로지스틱 회귀분석을 실행할 수 있습니다. 해당 패키지를 이용하기 위해서 결과값을 0과 1로 코드화할 필요가 있으며, 만일 변수형이 팩터 형태로 남아 있으면 작동이 되지 않습니다. 또한 결과값인 <span class="math inline">\(y\)</span>가 맨 마지막 컬럼에 위치해야 하며, 불필요한 컬럼은 삭제되어야 합니다.</p>
 <p>이를 고려하여 새로운 데이터 테이블을 만들고, 교차 검증을 실시합니다.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">library</span>(bestglm)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">df =<span class="st"> </span>train <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">ifelse</span>(class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb41-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="kw">bestglm</span>(df, <span class="dt">IC =</span> <span class="st">&#39;CV&#39;</span>,</a>
-<a class="sourceLine" id="cb41-6" data-line-number="6">        <span class="dt">CVArgs =</span> <span class="kw">list</span>(<span class="dt">Method =</span> <span class="st">&#39;HTF&#39;</span>, <span class="dt">K =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb41-7" data-line-number="7">                      <span class="dt">REP =</span> <span class="dv">1</span>), <span class="dt">family =</span> binomial)</a></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="kw">library</span>(bestglm)</a>
+<a class="sourceLine" id="cb105-2" data-line-number="2">df =<span class="st"> </span>train <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb105-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">ifelse</span>(class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb105-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb105-5" data-line-number="5"><span class="kw">bestglm</span>(df, <span class="dt">IC =</span> <span class="st">&#39;CV&#39;</span>,</a>
+<a class="sourceLine" id="cb105-6" data-line-number="6">        <span class="dt">CVArgs =</span> <span class="kw">list</span>(<span class="dt">Method =</span> <span class="st">&#39;HTF&#39;</span>, <span class="dt">K =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb105-7" data-line-number="7">                      <span class="dt">REP =</span> <span class="dv">1</span>), <span class="dt">family =</span> binomial)</a></code></pre></div>
 <pre><code>## CV(K = 10, REP = 1)
 ## BICq equivalent for q in (0.0000716797006619085, 0.273173435514231)
 ## Best Model:
@@ -547,9 +557,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## u.size        0.6582    0.15295   4.303 1.683e-05
 ## nucl          0.5726    0.09923   5.771 7.899e-09</code></pre>
 <p>K = 10 개를 대상으로 교차 검증을 수행한 결과 최적의 변수가 선택되었습니다. 해당 변수만을 이용하여 다시 로지스틱 회귀분석을 실시합니다.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">reduce.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span><span class="st"> </span>thick <span class="op">+</span><span class="st"> </span>u.size <span class="op">+</span><span class="st"> </span>nucl, <span class="dt">family =</span> binomial,</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">                 <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="kw">summary</span>(reduce.fit)</a></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1">reduce.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span><span class="st"> </span>thick <span class="op">+</span><span class="st"> </span>u.size <span class="op">+</span><span class="st"> </span>nucl, <span class="dt">family =</span> binomial,</a>
+<a class="sourceLine" id="cb107-2" data-line-number="2">                 <span class="dt">data =</span> train)</a>
+<a class="sourceLine" id="cb107-3" data-line-number="3"><span class="kw">summary</span>(reduce.fit)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = class ~ thick + u.size + nucl, family = binomial, 
@@ -576,13 +586,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Number of Fisher Scoring iterations: 7</code></pre>
 <p>위 모델을 테스트 셋에 적용한 후, 혼돈 행렬을 이용해 측값과 실제 값을 비교해보도록 합니다.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">test.cv.probs =<span class="st"> </span><span class="kw">predict</span>(reduce.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">test.cv.probs =<span class="st"> </span><span class="kw">ifelse</span>(test.cv.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
-<a class="sourceLine" id="cb45-5" data-line-number="5">test.class =<span class="st"> </span><span class="kw">ifelse</span>(test<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
-<a class="sourceLine" id="cb45-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test.cv.probs, test.class)</a></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb109-3" data-line-number="3">test.cv.probs =<span class="st"> </span><span class="kw">predict</span>(reduce.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
+<a class="sourceLine" id="cb109-4" data-line-number="4">test.cv.probs =<span class="st"> </span><span class="kw">ifelse</span>(test.cv.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
+<a class="sourceLine" id="cb109-5" data-line-number="5">test.class =<span class="st"> </span><span class="kw">ifelse</span>(test<span class="op">$</span>class <span class="op">==</span><span class="st"> &#39;malignant&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
+<a class="sourceLine" id="cb109-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb109-7" data-line-number="7">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test.cv.probs, test.class)</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -615,7 +625,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bic-기준-최적의-피처-선택" class="section level2">
 <h2><span class="header-section-number">3.6</span> BIC 기준 최적의 피처 선택</h2>
 <p><code>bestglm()</code> 함수의 IC 인자를 변경하여 타 기준 최적 피처를 선택할 수 있으며, BIC 기준 최적의 피처를 선택하도로 하겠습니다.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">bestglm</span>(df, <span class="dt">IC =</span> <span class="st">&#39;BIC&#39;</span>, <span class="dt">family =</span> binomial)</a></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">bestglm</span>(df, <span class="dt">IC =</span> <span class="st">&#39;BIC&#39;</span>, <span class="dt">family =</span> binomial)</a></code></pre></div>
 <pre><code>## BIC
 ## BICq equivalent for q in (0.273173435514231, 0.577036596263764)
 ## Best Model:
@@ -626,13 +636,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## nucl          0.5580    0.09848   5.666 1.462e-08
 ## n.nuc         0.4291    0.11846   3.622 2.920e-04</code></pre>
 <p>이번에는 thick, adhsn, nucl, n.nuc 피처가 선택되었다. 이를 토대로 추정 및 정확도를 계산해봅니다.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">bic.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span><span class="st"> </span>thick <span class="op">+</span><span class="st"> </span>adhsn <span class="op">+</span><span class="st"> </span>nucl <span class="op">+</span><span class="st"> </span>n.nuc, <span class="dt">family =</span> binomial,</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">                 <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb49-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb49-4" data-line-number="4">test.bic.probs =<span class="st"> </span><span class="kw">predict</span>(bic.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
-<a class="sourceLine" id="cb49-5" data-line-number="5">test.bic.probs =<span class="st"> </span><span class="kw">ifelse</span>(test.bic.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
-<a class="sourceLine" id="cb49-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb49-7" data-line-number="7">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test.bic.probs, test.class)</a></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1">bic.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span><span class="st"> </span>thick <span class="op">+</span><span class="st"> </span>adhsn <span class="op">+</span><span class="st"> </span>nucl <span class="op">+</span><span class="st"> </span>n.nuc, <span class="dt">family =</span> binomial,</a>
+<a class="sourceLine" id="cb113-2" data-line-number="2">                 <span class="dt">data =</span> train)</a>
+<a class="sourceLine" id="cb113-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb113-4" data-line-number="4">test.bic.probs =<span class="st"> </span><span class="kw">predict</span>(bic.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
+<a class="sourceLine" id="cb113-5" data-line-number="5">test.bic.probs =<span class="st"> </span><span class="kw">ifelse</span>(test.bic.probs <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.factor</span>()</a>
+<a class="sourceLine" id="cb113-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb113-7" data-line-number="7">caret<span class="op">::</span><span class="kw">confusionMatrix</span>(test.bic.probs, test.class)</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -674,15 +684,15 @@ ROC 곡선을 구성하는 점들은 거짓 긍정의 임계치가 변화할 때
 <p>분류기가 완벽하다면 True Positive는 100%, False Positive는 0%인 y축과 같을 것입니다. 실제 분류기는 위 그림처럼 ‘완벽한’ 분류기와 ‘쓸모없는’ 분류기 사이의 영역에 위치할 것입니다.</p>
 <p>ROC 곡선이 완벽한 분류기에 가까울수록 분류기는 Positive 값을 더욱 잘 식별하며, 이는 AUC (Area Under Curve)로 측정할 수 있습니다. AUC는 ROC 다이어그램을 2차원 정사각형으로 취급하며, ROC 곡선의 아래 전체 영역을 측정합니다. AUC는 0.5에서 1 사이 값을 나타냅니다.</p>
 <p>다음은 모형의 ROC 및 AUC를 계산하는 방법입니다.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">full.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span>.,  <span class="dt">family =</span> binomial, <span class="dt">data =</span> train)</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">test.full.props =<span class="st"> </span><span class="kw">predict</span>(full.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
-<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="kw">head</span>(test.full.props)</a></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">full.fit =<span class="st"> </span><span class="kw">glm</span>(class <span class="op">~</span>.,  <span class="dt">family =</span> binomial, <span class="dt">data =</span> train)</a>
+<a class="sourceLine" id="cb115-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb115-3" data-line-number="3">test.full.props =<span class="st"> </span><span class="kw">predict</span>(full.fit, <span class="dt">newdata =</span> test, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
+<a class="sourceLine" id="cb115-4" data-line-number="4"><span class="kw">head</span>(test.full.props)</a></code></pre></div>
 <pre><code>##        2        4        5        8       11       16 
 ## 0.960970 0.676287 0.022461 0.005702 0.001921 0.743727</code></pre>
 <p>먼저 모든 피처로 로지스틱 회귀 분석을 실시한 후, <code>predict()</code> 함수를 이용해 테스트 셋에 모델을 적용합니다.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">library</span>(InformationValue)</a>
-<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw">plotROC</span>(test.class, test.full.props)</a></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">library</span>(InformationValue)</a>
+<a class="sourceLine" id="cb117-2" data-line-number="2"><span class="kw">plotROC</span>(test.class, test.full.props)</a></code></pre></div>
 <p><img src="03-logistic_files/figure-html/unnamed-chunk-31-1.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>InformationValue 패키지의 <code>plotROC()</code> 함수를 이용해 ROC 그림 및 AUC 값을 계산할 수 있습니다.</p>
 
@@ -693,8 +703,8 @@ ROC 곡선을 구성하는 점들은 거짓 긍정의 임계치가 변화할 때
           </div>
         </div>
       </div>
-<a href="회귀분석.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="회귀분석.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ridge-lasso.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
