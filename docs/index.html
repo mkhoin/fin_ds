@@ -32,7 +32,7 @@
   
   
 
-<link rel="next" href="사용-패키지.html"/>
+<link rel="next" href="머신러닝이란.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -131,8 +131,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">금융 데이터 사이언스</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="사용-패키지.html"><a href="사용-패키지.html"><i class="fa fa-check"></i>사용 패키지</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#사용-패키지"><i class="fa fa-check"></i>사용 패키지</a></li>
+</ul></li>
 <li class="chapter" data-level="1" data-path="머신러닝이란.html"><a href="머신러닝이란.html"><i class="fa fa-check"></i><b>1</b> 머신러닝이란?</a><ul>
 <li class="chapter" data-level="1.1" data-path="머신러닝이란.html"><a href="머신러닝이란.html#지도학습supervised-learning"><i class="fa fa-check"></i><b>1.1</b> 지도학습(Supervised Learning)</a></li>
 <li class="chapter" data-level="1.2" data-path="머신러닝이란.html"><a href="머신러닝이란.html#비지도학습unsupervised-learning"><i class="fa fa-check"></i><b>1.2</b> 비지도학습(Unsupervised Learning)</a></li>
@@ -241,6 +242,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>Welcome</h1>
 <p>R을 이용한 금융 데이터 사이언스 과정 페이지 입니다.
 현재 머신러닝 파트만 업로드 중입니다.</p>
+<div id="사용-패키지" class="section level2 unnumbered">
+<h2>사용 패키지</h2>
+<p>본 과정에서 사용되는 패키지는 다음과 같이 설치할 수 있습니다. (업데이트 중)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">pkg =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;alr3&#39;</span>, <span class="st">&#39;caret&#39;</span>, <span class="st">&#39;ISLR&#39;</span>, <span class="st">&#39;MASS&#39;</span>, <span class="st">&#39;InformationValue&#39;</span>,</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">        <span class="st">&#39;leaps&#39;</span>, <span class="st">&#39;car&#39;</span>, <span class="st">&#39;corrplot&#39;</span>, <span class="st">&#39;lmtest&#39;</span>, <span class="st">&#39;bestglm&#39;</span>,</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">        <span class="st">&#39;ElemStatLearn&#39;</span>, <span class="st">&#39;psych&#39;</span>, <span class="st">&#39;rpart.plot&#39;</span>, <span class="st">&#39;xgboost&#39;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">new.pkg =<span class="st"> </span>pkg[<span class="op">!</span>(pkg <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="cf">if</span> (<span class="kw">length</span>(new.pkg)) {</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="kw">install.packages</span>(new.pkg, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)}</a></code></pre></div>
+
+</div>
 </div>
             </section>
 
@@ -248,7 +261,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="사용-패키지.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="머신러닝이란.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -290,20 +303,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
