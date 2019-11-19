@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 회귀분석 | 금융 데이터 사이언스</title>
+  <meta name="description" content="Chapter 2 회귀분석 | 금융 데이터 사이언스" />
+  <meta name="generator" content="bookdown 0.15 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 회귀분석 | 금융 데이터 사이언스" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 회귀분석 | 금융 데이터 사이언스" />
+  
+  
+  
+
+<meta name="author" content="이현열" />
+
+
+<meta name="date" content="2019-11-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="머신러닝이란.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">금융 데이터 사이언스</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="머신러닝이란.html"><a href="머신러닝이란.html"><i class="fa fa-check"></i><b>1</b> 머신러닝이란?</a><ul>
+<li class="chapter" data-level="1.1" data-path="머신러닝이란.html"><a href="머신러닝이란.html#지도학습supervised-learning"><i class="fa fa-check"></i><b>1.1</b> 지도학습(Supervised Learning)</a></li>
+<li class="chapter" data-level="1.2" data-path="머신러닝이란.html"><a href="머신러닝이란.html#비지도학습unsupervised-learning"><i class="fa fa-check"></i><b>1.2</b> 비지도학습(Unsupervised Learning)</a></li>
+<li class="chapter" data-level="1.3" data-path="머신러닝이란.html"><a href="머신러닝이란.html#딥러닝-강화학습reinforcement-learning"><i class="fa fa-check"></i><b>1.3</b> 딥러닝 / 강화학습(Reinforcement Learning)</a></li>
+<li class="chapter" data-level="1.4" data-path="머신러닝이란.html"><a href="머신러닝이란.html#사용-패키지"><i class="fa fa-check"></i><b>1.4</b> 사용 패키지</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="회귀분석.html"><a href="회귀분석.html"><i class="fa fa-check"></i><b>2</b> 회귀분석</a><ul>
+<li class="chapter" data-level="2.1" data-path="회귀분석.html"><a href="회귀분석.html#상관관계-이해하기"><i class="fa fa-check"></i><b>2.1</b> 상관관계 이해하기</a></li>
+<li class="chapter" data-level="2.2" data-path="회귀분석.html"><a href="회귀분석.html#회귀의-이해"><i class="fa fa-check"></i><b>2.2</b> 회귀의 이해</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="회귀분석.html"><a href="회귀분석.html#보통-최소-제곱ols-추정"><i class="fa fa-check"></i><b>2.2.1</b> 보통 최소 제곱(OLS) 추정</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="회귀분석.html"><a href="회귀분석.html#단변량-회귀분석"><i class="fa fa-check"></i><b>2.3</b> 단변량 회귀분석</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="회귀분석.html"><a href="회귀분석.html#챌린저-호-데이터"><i class="fa fa-check"></i><b>2.3.1</b> 챌린저 호 데이터</a></li>
+<li class="chapter" data-level="2.3.2" data-path="회귀분석.html"><a href="회귀분석.html#미국-와이오밍-주-용출량-예측"><i class="fa fa-check"></i><b>2.3.2</b> 미국 와이오밍 주 용출량 예측</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="회귀분석.html"><a href="회귀분석.html#다변량-회귀분석"><i class="fa fa-check"></i><b>2.4</b> 다변량 회귀분석</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="회귀분석.html"><a href="회귀분석.html#다이아몬드-데이터"><i class="fa fa-check"></i><b>2.4.1</b> 다이아몬드 데이터</a></li>
+<li class="chapter" data-level="2.4.2" data-path="회귀분석.html"><a href="회귀분석.html#캘리포니아-물-가용량"><i class="fa fa-check"></i><b>2.4.2</b> 캘리포니아 물 가용량</a></li>
+<li class="chapter" data-level="2.4.3" data-path="회귀분석.html"><a href="회귀분석.html#최적화를-통한-변수-선택"><i class="fa fa-check"></i><b>2.4.3</b> 최적화를 통한 변수 선택</a></li>
+<li class="chapter" data-level="2.4.4" data-path="회귀분석.html"><a href="회귀분석.html#robustness-check"><i class="fa fa-check"></i><b>2.4.4</b> Robustness Check</a></li>
+<li class="chapter" data-level="2.4.5" data-path="회귀분석.html"><a href="회귀분석.html#실제와-예측간의-차이"><i class="fa fa-check"></i><b>2.4.5</b> 실제와 예측간의 차이</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="회귀분석.html"><a href="회귀분석.html#다른-고려사항"><i class="fa fa-check"></i><b>2.5</b> 다른 고려사항</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="회귀분석.html"><a href="회귀분석.html#질적-피처"><i class="fa fa-check"></i><b>2.5.1</b> 질적 피처</a></li>
+<li class="chapter" data-level="2.5.2" data-path="회귀분석.html"><a href="회귀분석.html#상호작용-항"><i class="fa fa-check"></i><b>2.5.2</b> 상호작용 항</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="http://henryquant.blogspot.com/" target="blank">Henry's Quantopia</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">금융 데이터 사이언스</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="회귀분석" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> 회귀분석</h1>
+<div id="상관관계-이해하기" class="section level2">
+<h2><span class="header-section-number">2.1</span> 상관관계 이해하기</h2>
+<p>먼저 R에서 제공하는 기본 데이터를 불러옵니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(anscombe)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">attach</span>(anscombe)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">head</span>(anscombe)</a></code></pre></div>
+<pre><code>##   x1 x2 x3 x4   y1   y2    y3   y4
+## 1 10 10 10  8 8.04 9.14  7.46 6.58
+## 2  8  8  8  8 6.95 8.14  6.77 5.76
+## 3 13 13 13  8 7.58 8.74 12.74 7.71
+## 4  9  9  9  8 8.81 8.77  7.11 8.84
+## 5 11 11 11  8 8.33 9.26  7.81 8.47
+## 6 14 14 14  8 9.96 8.10  8.84 7.04</code></pre>
+<p>각 변수의 상관관계를 살펴보도록 합니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">cor</span>(x1, y1)</a></code></pre></div>
+<pre><code>## [1] 0.8164</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">cor</span>(x2, y2)</a></code></pre></div>
+<pre><code>## [1] 0.8162</code></pre>
+<p>둘 간의 상관관계는 0.8164로 동일합니다. 이를 그림으로 확인해보도록 합니다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">plot</span>(x1, y1, <span class="dt">main =</span> <span class="st">&#39;Plot 1&#39;</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">plot</span>(x2, y2, <span class="dt">main =</span> <span class="st">&#39;Plot 2&#39;</span>)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">plot</span>(x3, y3, <span class="dt">main =</span> <span class="st">&#39;Plot 3&#39;</span>)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw">plot</span>(x4, y4, <span class="dt">main =</span> <span class="st">&#39;Plot 4&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-4-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>Plot 1은 선형관계를, Plot 2는 곡선 모양을, Plot 3은 특이점이, Plot 4는 특이점 하나만이 상관관계가 있는것 처럼 보입니다. 이처럼 상관관계에만 전적으로 의존하면 제대로 된 결과를 확인할 수 없습니다.</p>
+</div>
+<div id="회귀의-이해" class="section level2">
+<h2><span class="header-section-number">2.2</span> 회귀의 이해</h2>
+<p>회귀분석의 식은 다음과 같이 나타납니다.</p>
+<p><span class="math inline">\(y = a + bx\)</span></p>
+<ul>
+<li><span class="math inline">\(y\)</span>: 종속변수</li>
+<li><span class="math inline">\(x\)</span>: 독립변수</li>
+<li><span class="math inline">\(b\)</span>: 기울기. <span class="math inline">\(x\)</span>가 증가할 때마다 직선이 얼마나 올라가는지를 명시</li>
+<li><span class="math inline">\(a\)</span>: 절편. 직선이 세로 <span class="math inline">\(y\)</span>축과 교차하는 지점을 명시</li>
+</ul>
+<div id="보통-최소-제곱ols-추정" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> 보통 최소 제곱(OLS) 추정</h3>
+<p>OLS 회귀의 목표는 다음 방정식을 최소화하는 작업입니다.</p>
+<ul>
+<li><span class="math inline">\(\sum(y_i - \hat{y_i})^2 = \sum{e_i}^2\)</span></li>
+</ul>
+<p>즉 실제 값과 예측 값의 차로 <span class="math inline">\(e\)</span>(오차)를 정의됩니다.</p>
+<p><span class="math inline">\(\bar{y} = a + b\bar{x}\)</span>에서 다음식이 유도됩니다.</p>
+<ul>
+<li><span class="math inline">\(a = \bar{y} - b\bar{x}\)</span></li>
+<li><span class="math inline">\(b = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}\)</span></li>
+<li><span class="math inline">\(Var(x) = \frac{\sum(x_i - \bar{x})^2}{n}\)</span></li>
+<li><span class="math inline">\(Cov(x,y) = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{n}\)</span></li>
+</ul>
+<p>따라서 b는 다음과 같이 나타낼 수 있습니다.</p>
+<ul>
+<li><span class="math inline">\(b = \frac{Cov(x,y)}{Var(x)}\)</span></li>
+</ul>
+<p>R에서 해당 계수는 <code>lm()</code> 함수를 이용해 손쉽게 추정할 수 있습니다.</p>
+</div>
+</div>
+<div id="단변량-회귀분석" class="section level2">
+<h2><span class="header-section-number">2.3</span> 단변량 회귀분석</h2>
+<div id="챌린저-호-데이터" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> 챌린저 호 데이터</h3>
+<p>미국 우주왕복선 챌린저가 로켓 부스터 고장으로 분해되면서 일곱 명의 승무원이 사망했으며, 잠재 요인으로 발사 온도가 의심되었습니다. 로켓 연결 부분의 밀봉을 담당하는 패킹용 고무 오링이 40°F 미만에서는 테스트되지 않았었고, 발사일의 날씨가 평소와 달리 매우 춥고 영하(31°F)인 상태였기 때문입니다.</p>
+<p>다음 데이터는 온도에 따른 오링의 손상여부 테스트 데이터입니다.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">challenger =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;http://www.math.usu.edu/~symanzik/teaching/2009_stat6560/RDataAndScripts/sharif_abbass_project1_challenger.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">plot</span>(challenger<span class="op">$</span>temperature, challenger<span class="op">$</span>r,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&#39;Temp&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Damage&#39;</span>, <span class="dt">pch =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">65</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>고온에서 발사될 때 오링의 손상 이벤트가 적어지는 경향이 있습니다. 회귀분석을 통해 둘간의 관계를 살펴보도록 합니다.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">reg.challenger=<span class="st"> </span><span class="kw">lm</span>(r <span class="op">~</span><span class="st"> </span>temperature, <span class="dt">data =</span> challenger)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">summary</span>(reg.challenger)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = r ~ temperature, data = challenger)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.5608 -0.3944 -0.0854  0.1056  1.8671 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   3.6984     1.2195    3.03   0.0063 **
+## temperature  -0.0475     0.0174   -2.73   0.0127 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.577 on 21 degrees of freedom
+## Multiple R-squared:  0.261,  Adjusted R-squared:  0.226 
+## F-statistic: 7.43 on 1 and 21 DF,  p-value: 0.0127</code></pre>
+<p>temperature의 회귀계수가 -0.05로써 온도와 손상 이벤트 간에는 역의 관계가 있음이 보입니다. 당시 온도인 31°F를 대입하면 오링의 예상 손상 이벤트는 <span class="math inline">\(3.69841 + 31 \times (-0.04754) = 2.22467\)</span> 이 됩니다.</p>
+<p>회귀분석 결과를 그림으로 확인해보도록 하겠습니다.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">plot</span>(challenger<span class="op">$</span>temperature, challenger<span class="op">$</span>r,</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">     <span class="dt">xlab =</span> <span class="st">&#39;Temp&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Damage&#39;</span>, <span class="dt">pch =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">abline</span>(reg.challenger, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="미국-와이오밍-주-용출량-예측" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> 미국 와이오밍 주 용출량 예측</h3>
+<p>미국 와이오밍 주 스네이크 강 유역의 용출량을 예측변수, 해당 연도 눈의 강우량을 이용하여 예측합니다. 먼저 해당 데이터를 그림으로 나타내봅니다.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(alr3)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">data</span>(snake)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw">colnames</span>(snake) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;content&#39;</span>, <span class="st">&#39;yield&#39;</span>)</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw">head</span>(snake)</a></code></pre></div>
+<pre><code>##   content yield
+## 1    23.1  10.5
+## 2    32.8  16.7
+## 3    31.8  18.2
+## 4    32.0  17.0
+## 5    30.4  16.3
+## 6    24.0  10.5</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">plot</span>(snake, <span class="dt">xlab =</span> <span class="st">&#39;water content of snow&#39;</span>,</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">     <span class="dt">ylab =</span> <span class="st">&#39;water yield&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>양 끝에 특이점 두개가 있습니다. 다음으로 <code>lm()</code> 함수를 이용해 단변량 회귀분석을 실행합니다.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">reg =<span class="st"> </span><span class="kw">lm</span>(yield <span class="op">~</span><span class="st"> </span>content, <span class="dt">data =</span> snake)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">summary</span>(reg)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = yield ~ content, data = snake)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -2.179 -1.515 -0.362  1.628  3.197 
+## 
+## Coefficients:
+##             Estimate Std. Error t value    Pr(&gt;|t|)    
+## (Intercept)   0.7254     1.5488    0.47        0.65    
+## content       0.4981     0.0495   10.06 0.000000046 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.74 on 15 degrees of freedom
+## Multiple R-squared:  0.871,  Adjusted R-squared:  0.862 
+## F-statistic:  101 on 1 and 15 DF,  p-value: 0.0000000463</code></pre>
+<p>content 변수가 유의미한 변수임이 확인됩니다. 다음으로 산포도에 회귀식을 그려보도록 하겠습니다.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">plot</span>(snake, <span class="dt">xlab =</span> <span class="st">&#39;water content of snow&#39;</span>,</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">     <span class="dt">ylab =</span> <span class="st">&#39;water yield&#39;</span>)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="kw">abline</span>(reg, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">&#39;red&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>회귀분석의 가정은 다음과 같습니다.</p>
+<ul>
+<li>선형성(linearity): 독립 변수(x)와 종속 변수(y) 사이에 선형적 관계</li>
+<li>오류항의 비상관(non-correlation): 오류항 사이에 상관관계가 없음</li>
+<li>등분산성(homoscedasticity): 오류항은 정규분포를 따르며 일정한 분산을 가짐. 이 가정을 위배되면 이분산성(heteroscedasticity)</li>
+<li>비공선성(non-collinearity): 두 예측 변수 사이에도 선형적인 관계가 있으면 안됨</li>
+<li>특이점의 부재(absence of outliers): 특이점이 있으면 추정값이 심하게 왜곡될 수 있음</li>
+</ul>
+<p>회귀분석 결과에 <code>plot()</code> 함수를 입력하여 해당 가정을 확인할 수 있습니다.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">plot</span>(reg)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>car 패키지의 <code>qqPlot()</code> 함수를 통해 Q-Q 플롯의 신뢰구간을 확인할 수 있습니다.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">qqPlot</span>(reg)</a></code></pre></div>
+<pre><code>## [1]  7 10</code></pre>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="다변량-회귀분석" class="section level2">
+<h2><span class="header-section-number">2.4</span> 다변량 회귀분석</h2>
+<div id="다이아몬드-데이터" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> 다이아몬드 데이터</h3>
+<p>다이아몬드 가격에 영향을 미치는 요소에 대해 회귀분석을 실시하도록 합니다.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">data</span>(diamonds)</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="kw">head</span>(diamonds)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 10
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48</code></pre>
+<p>종속변수로 price, 독립변수로 caret, depth, table 피처를 사용하도록 하겠습니다.</p>
+<ul>
+<li>caret: 다이아몬드 무게</li>
+<li>depth: 깊이 비율, z / mean(x, y)</li>
+<li>table: 가장 넓은 부분의 너비 대비 다이아몬드 꼭대기의 너비</li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">reg.diamonds =<span class="st"> </span><span class="kw">lm</span>(price <span class="op">~</span><span class="st"> </span>carat <span class="op">+</span><span class="st"> </span>depth <span class="op">+</span><span class="st"> </span>table, <span class="dt">data =</span> diamonds)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">summary</span>(reg.diamonds)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = price ~ carat + depth + table, data = diamonds)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -18288   -786    -33    527  12487 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 13003.44     390.92    33.3   &lt;2e-16 ***
+## carat        7858.77      14.15   555.4   &lt;2e-16 ***
+## depth        -151.24       4.82   -31.4   &lt;2e-16 ***
+## table        -104.47       3.14   -33.3   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1530 on 53936 degrees of freedom
+## Multiple R-squared:  0.854,  Adjusted R-squared:  0.854 
+## F-statistic: 1.05e+05 on 3 and 53936 DF,  p-value: &lt;2e-16</code></pre>
+<p>price와 carat은 양의 관계, depth와 table은 음의 관계가 있습니다.</p>
+</div>
+<div id="캘리포니아-물-가용량" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> 캘리포니아 물 가용량</h3>
+<p>캘리포니아 오웬스 벨리의 여섯 지점에서 측정한 강설량을 토대로 물 가용량을 예측해보도록 하겠습니다.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">data</span>(water)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">str</span>(water)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    43 obs. of  8 variables:
+##  $ Year   : int  1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 ...
+##  $ APMAM  : num  9.13 5.28 4.2 4.6 7.15 9.7 5.02 6.7 10.5 9.1 ...
+##  $ APSAB  : num  3.58 4.82 3.77 4.46 4.99 5.65 1.45 7.44 5.85 6.13 ...
+##  $ APSLAKE: num  3.91 5.2 3.67 3.93 4.88 4.91 1.77 6.51 3.38 4.08 ...
+##  $ OPBPC  : num  4.1 7.55 9.52 11.14 16.34 ...
+##  $ OPRC   : num  7.43 11.11 12.2 15.15 20.05 ...
+##  $ OPSLAKE: num  6.47 10.26 11.35 11.13 22.81 ...
+##  $ BSAAM  : int  54235 67567 66161 68094 107080 67594 65356 67909 92715 70024 ...</code></pre>
+<p>Year는 불필요한 변수이므로 삭제해주도록 합니다.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">socal.water =<span class="st"> </span>water[, <span class="dv">-1</span>]</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">head</span>(socal.water)</a></code></pre></div>
+<pre><code>##   APMAM APSAB APSLAKE OPBPC  OPRC OPSLAKE  BSAAM
+## 1  9.13  3.58    3.91  4.10  7.43    6.47  54235
+## 2  5.28  4.82    5.20  7.55 11.11   10.26  67567
+## 3  4.20  3.77    3.67  9.52 12.20   11.35  66161
+## 4  4.60  4.46    3.93 11.14 15.15   11.13  68094
+## 5  7.15  4.99    4.88 16.34 20.05   22.81 107080
+## 6  9.70  5.65    4.91  8.88  8.15    7.41  67594</code></pre>
+<p>각 변수들 간 상관관계를 살펴보도록 하겠습니다.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">library</span>(corrplot)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">water.cor =<span class="st"> </span><span class="kw">cor</span>(socal.water)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="kw">print</span>(water.cor)</a></code></pre></div>
+<pre><code>##          APMAM   APSAB APSLAKE   OPBPC   OPRC OPSLAKE  BSAAM
+## APMAM   1.0000 0.82769 0.81608 0.12239 0.1544 0.10754 0.2386
+## APSAB   0.8277 1.00000 0.90030 0.03954 0.1056 0.02961 0.1833
+## APSLAKE 0.8161 0.90030 1.00000 0.09345 0.1064 0.10059 0.2493
+## OPBPC   0.1224 0.03954 0.09345 1.00000 0.8647 0.94335 0.8857
+## OPRC    0.1544 0.10564 0.10638 0.86471 1.0000 0.91914 0.9196
+## OPSLAKE 0.1075 0.02961 0.10059 0.94335 0.9191 1.00000 0.9384
+## BSAAM   0.2386 0.18329 0.24934 0.88575 0.9196 0.93844 1.0000</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">corrplot</span>(water.cor)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-17-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>AP와 OP 변수들 간의 강한 상관관계가 존재하며, 다중 공선성 문제에 맞닥뜨릴 것이라는 사실을 알 수 있습니다.</p>
+<p><code>lm()</code> 함수를 통해 회귀분석을 실시하며, 독립변수로 모든 변수를 입력하고자 할 때는 변수를 모두 입력하는 대신 <em>y ~ .</em> 형태로 입력이 가능합니다.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">reg =<span class="st"> </span><span class="kw">lm</span>(BSAAM <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> socal.water)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">summary</span>(reg)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = BSAAM ~ ., data = socal.water)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -12690  -4936  -1424   4173  18542 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  15944.7     4099.8    3.89  0.00042 ***
+## APMAM          -12.8      708.9   -0.02  0.98572    
+## APSAB         -664.4     1522.9   -0.44  0.66524    
+## APSLAKE       2270.7     1341.3    1.69  0.09911 .  
+## OPBPC           69.7      461.7    0.15  0.88084    
+## OPRC          1916.5      641.4    2.99  0.00503 ** 
+## OPSLAKE       2211.6      752.7    2.94  0.00573 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 7560 on 36 degrees of freedom
+## Multiple R-squared:  0.925,  Adjusted R-squared:  0.912 
+## F-statistic: 73.8 on 6 and 36 DF,  p-value: &lt;2e-16</code></pre>
+</div>
+<div id="최적화를-통한-변수-선택" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> 최적화를 통한 변수 선택</h3>
+<p>변수 선택에는 크게 두가지 방법이 있습니다.</p>
+<ul>
+<li><p>단계적 전방 선택법(forward stepwise selection): 피처가 하나도 없는 모형에서 시작해, 피처를 한 번에 하나씩 더해 모든 피처가 포함될 때까지 계속한다. 잔차 제곱합(RSS)이 제일 작은 피처를 선택</p></li>
+<li><p>단계적 후방 회귀분석(backward stepwise regression): 모형에 모든 피처를 더해 놓고 시작해 가장 덜 유용한 피처를 한 번에 하나씩 제거</p></li>
+</ul>
+<p>두 방법 모두 편향된 회귀 계수를 생성할 수 있으므로, <strong>최량 부분 집합 회귀 분석법(best subsets regression)</strong>을 실시힙합니다. 이는 가능한 모든 피처의 조합을 이용해 모형을 적합화합니다. leaps 패키지의 <code>regsubsets()</code> 함수를 통해 최량 부분 집합 회귀를 수행할 수 있습니다.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">library</span>(leaps)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">reg.sub =<span class="st"> </span><span class="kw">regsubsets</span>(BSAAM <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> socal.water)</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">best.summary =<span class="st"> </span><span class="kw">summary</span>(reg.sub)</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">best.summary<span class="op">$</span>rss</a></code></pre></div>
+<pre><code>## [1] 3264010454 2600641788 2068947585 2057133378 2055849271 2055830733</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">which.min</span>(best.summary<span class="op">$</span>rss)</a></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<p>피처가 6개 일때 RSS가 가장 낮음이 보입니다. 그러나 피처를 더하면 더할 수록 RSS는 감소하고 <span class="math inline">\(R^2\)</span>는 증가하기 마련입니다. 따라서 피처 선택을 위해 여러 기준을 살펴봐야 합니다.</p>
+<ul>
+<li><p><span class="math inline">\(AIC = n \times log(\frac{RSS_p}{n}) + 2 \times p\)</span> <br> <span class="math inline">\(p\)</span>: 테스트하고 있는 모형의 피처 수</p></li>
+<li><p><span class="math inline">\(C_p = \frac{RSS_p}{MSE_f} - n + 2 \times p\)</span> <br> <span class="math inline">\(MSE_t\)</span>: 모든 피처를 포함한 모형의 평균 제곱 오차 <br> <span class="math inline">\(n\)</span>: 표본 크기</p></li>
+<li><p><span class="math inline">\(BIC = n \times log \frac{RSS_p}{n} + p \times log(n)\)</span></p></li>
+<li><p><span class="math inline">\(Adjusted\ R^2 = 1 - \frac{RSS}{n-p-1} / \frac{R^2}{n-1}\)</span></p></li>
+</ul>
+<p>선형 모형에서 AIC와 Cp는 서로 비례하므로 Cp만 살펴보도록 하며, Cp는 leaps 패키지로 출력할 수 있습니다.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">plot</span>(best.summary<span class="op">$</span>cp, <span class="dt">xlab =</span> <span class="st">&#39;number of features&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;cp&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-20-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>피처가 3개로 구성된 모형이 가장 작은 Cp 값을 가집니다.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">plot</span>(reg.sub, <span class="dt">scale =</span> <span class="st">&#39;Cp&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-21-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>가장 작은 Cp 값을 제공하는 피처를 나타내고 있으며 <strong>APSLAKE, OPRC, OPSLAKE</strong>가 이 모형에 포함된 피처들입니다.</p>
+<p>위에서 선택된 피처만으로 다중 회귀분석을 실시하도록 하겠습니다.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">reg.best =<span class="st"> </span><span class="kw">lm</span>(BSAAM <span class="op">~</span><span class="st"> </span>APSLAKE <span class="op">+</span><span class="st"> </span>OPRC <span class="op">+</span><span class="st"> </span>OPSLAKE, <span class="dt">data =</span> socal.water) </a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">summary</span>(reg.best)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = BSAAM ~ APSLAKE + OPRC + OPSLAKE, data = socal.water)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -12964  -5140  -1252   4446  18649 
+## 
+## Coefficients:
+##             Estimate Std. Error t value  Pr(&gt;|t|)    
+## (Intercept)    15425       3638    4.24   0.00013 ***
+## APSLAKE         1712        500    3.42   0.00148 ** 
+## OPRC            1798        568    3.17   0.00300 ** 
+## OPSLAKE         2390        447    5.35 0.0000042 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 7280 on 39 degrees of freedom
+## Multiple R-squared:  0.924,  Adjusted R-squared:  0.919 
+## F-statistic:  159 on 3 and 39 DF,  p-value: &lt;2e-16</code></pre>
+<p>3개의 피처만으로 회귀분석한 <span class="math inline">\(R^2\)</span>가 0.9185로써, 전체 피처로 회귀분석한 <span class="math inline">\(R^2\)</span>인 0.9123 대비 증가합니다.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">plot</span>(reg.best)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-23-1.png" width="50%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="robustness-check" class="section level3">
+<h3><span class="header-section-number">2.4.4</span> Robustness Check</h3>
+<p>회귀분석의 가정이 맞는지 강건성 체크를 해보도록 하겠습니다.</p>
+<div id="다중공선성" class="section level4">
+<h4><span class="header-section-number">2.4.4.1</span> 다중공선성</h4>
+<p>다중공선성(multicollinearity) 여부를 조사하기 위해서는 분산 팽창 인자(VIF: Variance inflation factor) 통계량을 사용해야 합니다. VIF는 모든 피처가 들어 있는 전체 모형을 적합화할 때 계산된 특정한 피처 계수의 분산과 그 피처만 들어 있는 부분 모형으로 적합화했을 때의 계수 분산의 비율입니다.</p>
+<p><span class="math display">\[VIF = 1 / (1 - R^2_i)\]</span></p>
+<p>car 패키지의 <code>vif()</code> 함수를 통해 해당 값을 계산할 수 있습니다.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">vif</span>(reg.best)</a></code></pre></div>
+<pre><code>## APSLAKE    OPRC OPSLAKE 
+##   1.011   6.453   6.445</code></pre>
+<p>OPRC과 OPSLAKE의 vif가 매우 높게 나오며, 이는 OPRC와 OPSLAKE 간 상관관계가 지나치게 높기 때문입니다.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">plot</span>(socal.water<span class="op">$</span>OPRC, socal.water<span class="op">$</span>OPSLAKE,</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">     <span class="dt">xlab =</span> <span class="st">&#39;OPRC&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;OPSLAKE&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-25-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>따라서 둘 중 하나의 변수를 탈락시키는 것이 좋습니다.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">best.summary<span class="op">$</span>adjr2</a></code></pre></div>
+<pre><code>## [1] 0.8778 0.9002 0.9185 0.9169 0.9147 0.9123</code></pre>
+<p>변수가 2개인 경우 <span class="math inline">\(R^2\)</span>는 0.900이며, 3개인 경우 <span class="math inline">\(R^2\)</span>는 0.918여서 증가가 경미합니다. 변수 2개로만 이뤄진 모형의 가정을 점검합니다.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">fit<span class="fl">.2</span> =<span class="st"> </span><span class="kw">lm</span>(BSAAM <span class="op">~</span><span class="st"> </span>APSLAKE <span class="op">+</span><span class="st"> </span>OPSLAKE, <span class="dt">data =</span> socal.water)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw">summary</span>(fit<span class="fl">.2</span>)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = BSAAM ~ APSLAKE + OPSLAKE, data = socal.water)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -13336  -5893   -172   4220  19500 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    19145       3812    5.02 0.000011 ***
+## APSLAKE         1769        554    3.19   0.0027 ** 
+## OPSLAKE         3690        196   18.83  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 8060 on 40 degrees of freedom
+## Multiple R-squared:  0.905,  Adjusted R-squared:   0.9 
+## F-statistic:  190 on 2 and 40 DF,  p-value: &lt;2e-16</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="kw">plot</span>(fit<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="kw">vif</span>(fit<span class="fl">.2</span>)</a></code></pre></div>
+<pre><code>## APSLAKE OPSLAKE 
+##    1.01    1.01</code></pre>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-27-1.png" width="50%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="등분산성" class="section level4">
+<h4><span class="header-section-number">2.4.4.2</span> 등분산성</h4>
+<p>등분산성에 여부는 브루시-페이건(Breusch-Pagan, BP) 테스트를 통해 확인이 가능하며, lmtest 패키지의 <code>bptest()</code> 함수를 이용합니다.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">library</span>(lmtest)</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">bptest</span>(fit<span class="fl">.2</span>)</a></code></pre></div>
+<pre><code>## 
+##  studentized Breusch-Pagan test
+## 
+## data:  fit.2
+## BP = 0.0046, df = 2, p-value = 1</code></pre>
+<p>BP 테스트의 귀무가설과 대립가설은 다음과 같습니다</p>
+<ul>
+<li>귀무가설: “오차항은 등분산성을 띤다”</li>
+<li>대립가설: “오차항은 이분산성을 띤다”</li>
+</ul>
+<p>p 값이 0.9977로 매우크므로 귀무가설을 기각할 근거가 부족해, 오차항은 등분산을 띤다는 것을 알 수 있습니다.</p>
+</div>
+</div>
+<div id="실제와-예측간의-차이" class="section level3">
+<h3><span class="header-section-number">2.4.5</span> 실제와 예측간의 차이</h3>
+<p><strong>model$fitted.values</strong>에는 모델을 통해 나온 예측값이 있으므로, 실제 값과 차이를 살펴볼 수 있습니다.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">plot</span>(fit<span class="fl">.2</span><span class="op">$</span>fitted.values, socal.water<span class="op">$</span>BSAAM, </a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">     <span class="dt">xlab =</span> <span class="st">&#39;predicted&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;actual&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;Predicted vs. Actual&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-29-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>ggplot을 이용 이용하면 더욱 깔끔하게 이를 나타낼 수 있다.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb55-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb55-4" data-line-number="4">socal.water[<span class="st">&#39;Actual&#39;</span>] =<span class="st"> </span>water<span class="op">$</span>BSAAM</a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">socal.water<span class="op">$</span>Forecast =<span class="st"> </span><span class="kw">predict</span>(fit<span class="fl">.2</span>)</a>
+<a class="sourceLine" id="cb55-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb55-7" data-line-number="7">socal.water <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Forecast, <span class="dt">y =</span> Actual)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Forecast vs. Actuals&#39;</span>)</a></code></pre></div>
+<p><img src="02-regression_files/figure-html/unnamed-chunk-30-1.png" width="50%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="다른-고려사항" class="section level2">
+<h2><span class="header-section-number">2.5</span> 다른 고려사항</h2>
+<div id="질적-피처" class="section level3">
+<h3><span class="header-section-number">2.5.1</span> 질적 피처</h3>
+<p>질적 피처(qualitative feature)에서는 남성/여성 또는 나쁨/중간/좋음 등 2개나 그 이상의 단계를 정할 수 있습니다.</p>
+<p>예를 들어 성별처럼 두 가지 단계를 갖는 피처가 있다면, 지표 혹은 더미 피처라는 변수를 만들어 임의로 단계 하나는 0, 다른 하나는 1로 줄 수 있습니다. 지표만을 이용해 모형을 만들어도 여전히 선형 모형은 기존 식과 같습니다.</p>
+<p><span class="math display">\[Y = B_0 + B_1x + e\]</span></p>
+<p>피처가 남성일 때 0, 여성일 때 1로 할당할 경우, 남성의 기대값은 <span class="math inline">\(y\)</span> 절편인 <span class="math inline">\(B_0\)</span>이고, 여성의 기대값은 <span class="math inline">\(B_0 + B_1x\)</span> 입니다. R 내에서 factor 형태로 된 피처를 사용할 경우 자동으로 질적 피처로 계산이 됩니다.</p>
+<p>예제로 ISLR 패키지의 Carseats 데이터 세트를 사용하도록 합니다.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">library</span>(ISLR)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="kw">data</span>(Carseats)</a>
+<a class="sourceLine" id="cb56-3" data-line-number="3"><span class="kw">str</span>(Carseats)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    400 obs. of  11 variables:
+##  $ Sales      : num  9.5 11.22 10.06 7.4 4.15 ...
+##  $ CompPrice  : num  138 111 113 117 141 124 115 136 132 132 ...
+##  $ Income     : num  73 48 35 100 64 113 105 81 110 113 ...
+##  $ Advertising: num  11 16 10 4 3 13 0 15 0 0 ...
+##  $ Population : num  276 260 269 466 340 501 45 425 108 131 ...
+##  $ Price      : num  120 83 80 97 128 72 108 120 124 124 ...
+##  $ ShelveLoc  : Factor w/ 3 levels &quot;Bad&quot;,&quot;Good&quot;,&quot;Medium&quot;: 1 2 3 3 1 1 3 2 3 3 ...
+##  $ Age        : num  42 65 59 55 38 78 71 67 76 76 ...
+##  $ Education  : num  17 10 12 14 13 16 15 10 10 17 ...
+##  $ Urban      : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 2 1 2 2 1 1 ...
+##  $ US         : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 1 2 1 2 1 2 ...</code></pre>
+<p>해당 데이터 중 정량적 피처인 광고(Advertising)과 질적 피처인 진열대 위치(ShelveLoc)만을 이용해 카시트(Carseats)의 판매량을 예측합니다. 이 중 진열대 위치는 Bad, Good, Medium 총 3개 level로 구성되어 있습니다.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">sales.fit =<span class="st"> </span><span class="kw">lm</span>(Sales <span class="op">~</span><span class="st"> </span>Advertising <span class="op">+</span><span class="st"> </span>ShelveLoc, <span class="dt">data =</span> Carseats)</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw">summary</span>(sales.fit)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Sales ~ Advertising + ShelveLoc, data = Carseats)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -6.648 -1.620 -0.048  1.531  6.410 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       4.8966     0.2521   19.43  &lt; 2e-16 ***
+## Advertising       0.1007     0.0169    5.95  5.9e-09 ***
+## ShelveLocGood     4.5769     0.3348   13.67  &lt; 2e-16 ***
+## ShelveLocMedium   1.7514     0.2748    6.37  5.1e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.24 on 396 degrees of freedom
+## Multiple R-squared:  0.373,  Adjusted R-squared:  0.369 
+## F-statistic: 78.6 on 3 and 396 DF,  p-value: &lt;2e-16</code></pre>
+<p>진열대 위치가 좋은 경우(ShelveLocGood)는 위치가 나쁜 경우의 판매량인 Intercept 값인 4.89662 대비 4.57686이 더 높습니다.</p>
+</div>
+<div id="상호작용-항" class="section level3">
+<h3><span class="header-section-number">2.5.2</span> 상호작용 항</h3>
+<p>어떤 피처가 예측에 미치는 영향이 또 다른 피처에 종속적일 경우, 이 두 피처는 서로 상호작용한다고 말합니다.</p>
+<p><span class="math display">\[Y = B_0 + B_1x + B_2 + B_1B_2x + e\]</span></p>
+<p>MASS 패키지의 Boston 데이터 세트를 이용해 상호작용 회귀분석을 살펴보도록 하겠습니다.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">library</span>(MASS)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">data</span>(Boston)</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="kw">str</span>(Boston)</a></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    506 obs. of  14 variables:
+##  $ crim   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
+##  $ zn     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
+##  $ indus  : num  2.31 7.07 7.07 2.18 2.18 2.18 7.87 7.87 7.87 7.87 ...
+##  $ chas   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ nox    : num  0.538 0.469 0.469 0.458 0.458 0.458 0.524 0.524 0.524 0.524 ...
+##  $ rm     : num  6.58 6.42 7.18 7 7.15 ...
+##  $ age    : num  65.2 78.9 61.1 45.8 54.2 58.7 66.6 96.1 100 85.9 ...
+##  $ dis    : num  4.09 4.97 4.97 6.06 6.06 ...
+##  $ rad    : int  1 2 2 3 3 3 5 5 5 5 ...
+##  $ tax    : num  296 242 242 222 222 222 311 311 311 311 ...
+##  $ ptratio: num  15.3 17.8 17.8 18.7 18.7 18.7 15.2 15.2 15.2 15.2 ...
+##  $ black  : num  397 397 393 395 397 ...
+##  $ lstat  : num  4.98 9.14 4.03 2.94 5.33 ...
+##  $ medv   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 ...</code></pre>
+<p>이 중 사용할 피처의 설명은 다음과 같습니다.</p>
+<ul>
+<li>medv: 주택 가치의 중위값</li>
+<li>lstat: 낮은 사회 경제적 지위를 갖는 가구의 백분율</li>
+<li>age: 주택의 연령</li>
+</ul>
+<p><code>lm()</code> 함수에 <span class="math inline">\(feature1 * feature2\)</span>를 쓰면, 각 피처뿐만 아니라 두 피처의 상호작용 항도 모형에 포함됩니다.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">value.fit =<span class="st"> </span><span class="kw">lm</span>(medv <span class="op">~</span><span class="st"> </span>lstat <span class="op">*</span><span class="st"> </span>age, <span class="dt">data =</span> Boston)</a>
+<a class="sourceLine" id="cb62-2" data-line-number="2"><span class="kw">summary</span>(value.fit)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = medv ~ lstat * age, data = Boston)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -15.81  -4.04  -1.33   2.08  27.55 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 36.088536   1.469835   24.55  &lt; 2e-16 ***
+## lstat       -1.392117   0.167456   -8.31  8.8e-16 ***
+## age         -0.000721   0.019879   -0.04    0.971    
+## lstat:age    0.004156   0.001852    2.24    0.025 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.15 on 502 degrees of freedom
+## Multiple R-squared:  0.556,  Adjusted R-squared:  0.553 
+## F-statistic:  209 on 3 and 502 DF,  p-value: &lt;2e-16</code></pre>
+<p>lstat은 매우 예측력이 높은 피처이며, age는 예측력이 높지 않습니다. 그러나 이 두 피처는 유의한 상호작용을 보이며, medv를 설명하는 변수입니다.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="머신러닝이란.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
